@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="300">
+<title>수시 경쟁률 현황판</title>
+<style>
+:root{color-scheme:light;--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;--border:rgba(11,11,11,.10);--accent:#2a78d6;--accent-bg:#eef4fc;--gray-bar:#c3c2b7;--gray-line:#b5b4ad;--good:#006300;--bad:#d03b3b;--warn:#b25e00;--yellow:#fff2cc;--prev:#eb6834;--tip:#0b0b0b;--tipink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--axis:#383835;--border:rgba(255,255,255,.10);--accent:#3987e5;--accent-bg:#14243a;--gray-bar:#4a4a47;--gray-line:#5a5a56;--good:#0ca30c;--bad:#e66767;--warn:#fab219;--yellow:#3a3520;--prev:#d95926;--tip:#f0efec;--tipink:#0b0b0b}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Malgun Gothic","Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.45}
+.wrap{max-width:1360px;margin:0 auto;padding:16px 18px 40px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:12px}
+header h1{font-size:22px;margin:0}
+header .sub{color:var(--ink2)}
+header .meta{width:100%;display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--ink2);font-size:13px}
+.badge{display:inline-block;border:1px solid var(--border);border-radius:12px;padding:1px 9px;background:var(--surface)}
+.badge.ok{border-color:var(--good);color:var(--good)}
+.badge.bad{border-color:var(--bad);color:var(--bad)}
+.badge.acc{border-color:var(--accent);color:var(--accent);font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+@media (max-width:1000px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.tiles{grid-template-columns:1fr}}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;position:relative}
+.tile.hl{border:2px solid var(--accent);background:var(--accent-bg)}
+.tile .nm{display:flex;align-items:center;gap:6px;font-weight:700;font-size:15px}
+.tile .rank{font-size:11px;background:var(--ink);color:var(--bg);border-radius:10px;padding:1px 7px;font-weight:700}
+.tile .hero{font-size:34px;font-weight:700;line-height:1.1;margin:4px 0 2px}
+.tile .hero .u{font-size:13px;font-weight:400;color:var(--ink2);margin-left:2px}
+.tile .row{font-size:12.5px;color:var(--ink2)}
+.tile .row b{color:var(--ink)}
+.tile .up{color:var(--good);font-weight:700}
+.tile .down{color:var(--bad);font-weight:700}
+.tile .ts{font-size:11px;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;align-items:center}
+.tile .e{color:var(--bad);font-size:12.5px;margin:6px 0}
+.tile svg.spark{position:absolute;right:10px;top:34px;width:110px;height:30px}
+.pill{font-size:10.5px;border-radius:8px;padding:0 5px;border:1px solid var(--border);color:var(--ink2)}
+.pill.warn{border-color:var(--warn);color:var(--warn)}
+.pill.bad{border-color:var(--bad);color:var(--bad)}
+.pill.man{border-color:var(--prev);color:var(--prev)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media (max-width:1000px){.two{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:12px;overflow:hidden}
+.card h2{font-size:15px;margin:0 0 8px;display:flex;align-items:center;gap:10px}
+.card h2 .hint{font-weight:400;color:var(--muted);font-size:12px}
+button{font:inherit;font-size:12px;border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:6px;padding:3px 9px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--ink2);margin:2px 0 6px}
+.legend i{display:inline-block;width:14px;height:10px;vertical-align:-1px;margin-right:4px;border-radius:2px}
+.legend i.acc{background:var(--accent)} .legend i.gray{background:var(--gray-bar)}
+.legend i.dot{width:10px;height:10px;border-radius:50%;background:transparent;border:2px solid var(--prev)}
+.legend i.dash{height:0;border-top:2px dashed var(--prev);border-radius:0;vertical-align:2px}
+svg text{font-family:inherit;fill:var(--ink2);font-size:12px}
+svg text.lbl{fill:var(--ink);font-size:13px}
+svg text.lbl.hl{font-weight:700;fill:var(--accent)}
+svg text.val{fill:var(--ink);font-size:12.5px;font-weight:700}
+svg text.val tspan.sub{font-weight:400;fill:var(--ink2)}
+svg .bar.acc{fill:var(--accent)} svg .bar.gray{fill:var(--gray-bar)}
+svg .prevdot{fill:var(--surface);stroke:var(--prev);stroke-width:2}
+svg .grid{stroke:var(--grid);stroke-width:1} svg .axis{stroke:var(--axis);stroke-width:1}
+svg .ln{fill:none;stroke:var(--gray-line);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+svg .ln.hl{stroke:var(--accent);stroke-width:2.5}
+svg .ln.prev{stroke:var(--prev);stroke-dasharray:5 4;stroke-width:1.8}
+svg .endlbl{font-size:11.5px;fill:var(--ink2)} svg .endlbl.hl{fill:var(--accent);font-weight:700} svg .endlbl.prev{fill:var(--prev)}
+svg .cross{stroke:var(--ink2);stroke-width:1;stroke-dasharray:3 3}
+svg .hit{fill:transparent}
+.grid-tbl{border-collapse:collapse;width:100%;font-size:12.5px;table-layout:fixed}
+.grid-tbl th,.grid-tbl td{border:1px solid var(--axis);padding:4px 3px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid-tbl .yr{background:var(--yellow);font-weight:700;font-size:13.5px}
+.grid-tbl .gu{background:var(--yellow);width:104px}
+.grid-tbl .un{background:var(--yellow);font-weight:700}
+.grid-tbl .un .q{margin-left:6px;font-weight:600}
+.grid-tbl .un.hl{color:var(--accent)}
+.grid-tbl .sh{background:var(--bg);font-weight:400;color:var(--ink2)}
+.grid-tbl .lab{background:var(--bg);width:104px}
+.grid-tbl .n{text-align:right;padding-right:6px;font-variant-numeric:tabular-nums}
+.grid-tbl .n.hl{background:var(--accent-bg)}
+.grid-tbl td.empty{color:var(--muted)}
+.cap{font-size:12.5px;color:var(--ink2);margin:8px 0 4px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tbl{border-collapse:collapse;width:100%;font-size:13px}
+.tbl th,.tbl td{border-bottom:1px solid var(--grid);padding:4px 6px;text-align:left}
+.tbl th{color:var(--ink2);font-weight:600;background:var(--bg)}
+.tbl td.n,.tbl th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tbl tr.under td{color:var(--bad)}
+.tbl tr.tot td{font-weight:700;border-top:2px solid var(--axis)}
+.meter{height:8px;background:var(--grid);border-radius:4px;overflow:hidden;min-width:100px}
+.meter i{display:block;height:100%;background:var(--bad)}
+details{margin-top:6px} summary{cursor:pointer;color:var(--ink2);font-size:13px}
+.form{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.form input,.form select{font:inherit;padding:4px 6px;border:1px solid var(--axis);border-radius:6px;background:var(--surface);color:var(--ink)}
+.form input[type=number]{width:110px}
+code{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:12px}
+footer{color:var(--muted);font-size:12px;margin-top:10px}
+footer a{color:var(--ink2)}
+#tip{position:fixed;pointer-events:none;background:var(--tip);color:var(--tipink);padding:6px 9px;border-radius:6px;font-size:12px;line-height:1.4;display:none;z-index:9;max-width:320px;white-space:pre-line;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.small{font-size:12px;color:var(--ink2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 id="title"></h1><span class="sub" id="subtitle"></span>
+  <div class="meta" id="meta"></div>
+</header>
+<section class="tiles" id="tiles"></section>
+<section class="two">
+  <div class="card"><h2>경쟁률 순위 <span class="hint">현재 경쟁률 · ○ 작년 같은 날(17:00) 경쟁률</span></h2><div class="legend"><span><i class="acc"></i>광주대</span><span><i class="gray"></i>타 대학</span><span><i class="dot"></i>작년 D+N 17:00 경쟁률</span></div><div id="bars"></div></div>
+  <div class="card"><h2>지원자 누적 추이 <span class="hint">마우스를 올리면 시각별 값</span></h2><div class="legend"><span><i class="acc"></i>광주대 올해</span><span><i class="gray"></i>타 대학 올해</span><span><i class="dash"></i>광주대 작년(일별 17:00)</span></div><div id="lines"></div></div>
+</section>
+<section class="card"><h2>일별 현황표 <span class="hint" id="dailyHint"></span><button id="copyDaily">엑셀용 복사(TSV)</button></h2><div id="daily"></div></section>
+<section class="card"><h2>대학별 전형 현황 <span class="hint">경쟁률 = 지원 ÷ 모집 · 빨간 행 = 현재 지원 &lt; 모집</span></h2><div class="tabs" id="typeTabs"></div><div id="types"></div></section>
+<section class="card"><h2>미달 모집단위 현황 <span class="hint">모집인원·지원인원이 함께 표기된 모집단위 기준 (광역·rowspan 병합 행은 1건으로 계산)</span></h2><div id="under"></div></section>
+<section class="card"><h2>수동 입력 <span class="hint">자동 수집이 실패한 대학의 값을 임시로 반영 (이 브라우저에만 저장)</span></h2><div id="manual"></div></section>
+<footer id="foot"></footer>
+</div>
+<div id="tip"></div>
+<script>window.__MODEL__ = __MODEL_JSON__;</script>
+<script>
+(function(){
+const M = window.__MODEL__;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => (n == null ? '-' : Number(n).toLocaleString('ko-KR'));
+const f2 = x => (x == null ? '-' : Number(x).toFixed(2));
+const sgn = n => (n == null ? '-' : (n >= 0 ? '+' : '') + fmt(n));
+const pad = n => String(n).padStart(2, '0');
+const hhmm = iso => { const d = new Date(iso); return pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const mdhm = iso => { if (!iso) return '-'; const d = new Date(iso); return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + hhmm(iso); };
+const WD = '일월화수목금토';
+const r2 = x => Math.round((x + Number.EPSILON) * 100) / 100;
+const HL = (M.univs.find(u => u.highlight) || M.univs[0]).key;
+const KEYS = M.univs.map(u => u.key);
+const NAME = Object.fromEntries(M.univs.map(u => [u.key, u.name]));
+
+let overrides = {};
+try { overrides = JSON.parse(localStorage.getItem('susi_overrides') || '{}') || {}; } catch (e) { overrides = {}; }
+function saveOverrides() { try { localStorage.setItem('susi_overrides', JSON.stringify(overrides)); } catch (e) {} }
+
+function cur(key) {
+  const c = Object.assign({}, M.current[key] || {});
+  const o = overrides[key];
+  if (o && o.applicants != null) {
+    c.applicants = o.applicants; c.quota = o.quota || c.quota || (M.univs.find(u => u.key === key) || {}).expected_quota;
+    c.ratio = c.quota ? r2(c.applicants / c.quota) : null; c.manual = true; c.page_ts = o.at; c.ok = true; c.stale = false; c.error = null;
+  }
+  return c;
+}
+function ranks() {
+  const arr = KEYS.map(k => ({ k, c: cur(k) })).filter(x => x.c.ratio != null).sort((a, b) => b.c.ratio - a.c.ratio || b.c.applicants - a.c.applicants);
+  const r = {}; arr.forEach((x, i) => r[x.k] = i + 1); return r;
+}
+
+// ---------- tooltip
+const tip = $('#tip');
+document.addEventListener('mousemove', e => {
+  const t = e.target.closest('[data-tip]');
+  if (!t) { tip.style.display = 'none'; return; }
+  tip.textContent = t.getAttribute('data-tip'); tip.style.display = 'block';
+  const x = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 8), y = Math.min(e.clientY + 14, window.innerHeight - tip.offsetHeight - 8);
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+});
+
+// ---------- header
+function renderHeader() {
+  $('#title').textContent = M.title; $('#subtitle').textContent = M.subtitle;
+  const pts = M.page_ts_range;
+  const ptsTxt = pts ? (pts[0] === pts[1] ? '페이지 기준 ' + pts[0].slice(5) : '페이지 기준 ' + pts[0].slice(5) + ' ~ ' + pts[1].slice(5)) : '';
+  const okN = KEYS.filter(k => cur(k).ok).length;
+  const di = M.period.day_index;
+  $('#meta').innerHTML = [
+    '<span class="badge acc">' + (di ? 'D+' + di + '일차' : '접수기간 외') + '</span>',
+    '<span>수집 <b>' + esc(mdhm(M.collected_at)) + '</b></span>',
+    ptsTxt ? '<span>' + esc(ptsTxt) + '</span>' : '',
+    '<span class="badge ' + (okN === KEYS.length ? 'ok' : 'bad') + '">정상 ' + okN + '/' + KEYS.length + '개교</span>',
+    '<span id="countdown"></span>',
+    '<span>' + M.interval_minutes + '분 간격 수집 · 화면 5분 자동 새로고침</span>'
+  ].join('');
+  const end = new Date(M.period.end_dt);
+  const tick = () => {
+    const ms = end - Date.now();
+    const el = $('#countdown'); if (!el) return;
+    if (ms <= 0) { el.innerHTML = '<span class="badge">접수 종료</span>'; return; }
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    el.textContent = '접수 종료(' + (end.getMonth() + 1) + '/' + end.getDate() + ' ' + pad(end.getHours()) + ':' + pad(end.getMinutes()) + ')까지 ' + (d ? d + '일 ' : '') + h + '시간 ' + m + '분';
+  };
+  tick(); setInterval(tick, 30000);
+}
+
+// ---------- sparkline
+function spark(key) {
+  const s = (M.series[key] || []).map(p => [new Date(p[0]).getTime(), p[1]]);
+  if (s.length < 2) return '';
+  const t0 = s[0][0], t1 = s[s.length - 1][0], vmax = Math.max(...s.map(p => p[1])) || 1;
+  const W = 110, H = 30;
+  const pts = s.map(p => ((p[0] - t0) / Math.max(1, t1 - t0) * (W - 4) + 2).toFixed(1) + ',' + (H - 2 - p[1] / vmax * (H - 6)).toFixed(1)).join(' ');
+  const hl = key === HL;
+  return '<svg class="spark" viewBox="0 0 ' + W + ' ' + H + '"><polyline points="' + pts + '" class="ln' + (hl ? ' hl' : '') + '"/><circle cx="' + ((W - 2)).toFixed(1) + '" cy="' + (H - 2 - s[s.length - 1][1] / vmax * (H - 6)).toFixed(1) + '" r="2.5" fill="' + (hl ? 'var(--accent)' : 'var(--gray-line)') + '"/></svg>';
+}
+
+// ---------- tiles
+function renderTiles() {
+  const rk = ranks();
+  $('#tiles').innerHTML = M.univs.map(u => {
+    const c = cur(u.key);
+    const hl = u.highlight ? ' hl' : '';
+    if (c.applicants == null) {
+      return '<div class="tile' + hl + '"><div class="nm">' + esc(u.name) + ' <span class="pill bad">수집 실패</span></div><div class="e">' + esc(c.error || '데이터 없음') + '</div><div class="row"><a href="' + esc(u.url) + '" target="_blank">경쟁률 페이지 열기</a> · 아래 수동 입력으로 반영 가능</div></div>';
+    }
+    const vp = c.vs_prev, pj = c.projection, dc = c.delta_cut;
+    let vpHtml = '';
+    if (vp) {
+      const cls = vp.diff >= 0 ? 'up' : 'down';
+      vpHtml = '<div class="row" data-tip="' + esc('작년 ' + M.prev.label + ' D+' + vp.day_index + '일차 ' + M.cutoff + ' 기준 ' + fmt(vp.prev_applicants) + '명(경쟁률 ' + f2(vp.prev_ratio) + ')\n올해 ' + vp.basis + ' ' + fmt(vp.this_applicants) + '명') + '">작년 D+' + vp.day_index + ' ' + fmt(vp.prev_applicants) + ' → <b>' + fmt(vp.this_applicants) + '</b> <span class="' + cls + '">' + sgn(vp.diff) + (vp.pct != null ? ' (' + (vp.pct >= 0 ? '+' : '') + vp.pct.toFixed(1) + '%)' : '') + '</span>' + (vp.basis.indexOf('현재') === 0 ? ' <span class="pill">현재값</span>' : '') + '</div>';
+    }
+    const pjHtml = pj ? '<div class="row" data-tip="' + esc('D+' + pj.day_index + ' ' + M.cutoff + ' 값 × (작년 최종 ' + fmt(pj.prev_final_applicants) + ' ÷ 작년 D+' + pj.day_index + ') 단순 비례 추정. 참고용.') + '">작년 추세 적용 예상 최종 <b>' + f2(pj.ratio) + '</b> <span class="small">(' + fmt(pj.applicants) + '명 · 작년 최종 ' + f2(pj.prev_final_ratio) + ')</span></div>' : '';
+    const d1 = c.delta_1h != null ? '최근 1h <b>' + sgn(c.delta_1h) + '</b>' : '';
+    const d2 = dc ? dc.since + ' 이후 <b>' + sgn(dc.value) + '</b>' : '';
+    const stat = c.manual ? '<span class="pill man">수동값</span>' : (c.stale ? '<span class="pill bad" data-tip="' + esc(c.error || '') + '">이전값(수집실패)</span>' : (c.notes && c.notes.length ? '<span class="pill warn" data-tip="' + esc(c.notes.join('\n')) + '">주의</span>' : ''));
+    return '<div class="tile' + hl + '">' +
+      '<div class="nm"><span class="rank">' + (rk[u.key] || '-') + '위</span>' + esc(u.name) + ' ' + stat + '</div>' +
+      '<div class="hero">' + f2(c.ratio) + '<span class="u">: 1</span></div>' + spark(u.key) +
+      '<div class="row">지원 <b>' + fmt(c.applicants) + '</b> / 모집 ' + fmt(c.quota) + (c.rank_applicants ? ' <span class="small">(지원자 ' + c.rank_applicants + '위)</span>' : '') + '</div>' +
+      '<div class="row">' + [d1, d2].filter(Boolean).join(' · ') + '</div>' + vpHtml + pjHtml +
+      '<div class="ts"><span>기준 ' + esc((c.page_ts || '').slice(5)) + ' · 수집 ' + esc(mdhm(c.collected_at)) + '</span><a href="' + esc(u.url) + '" target="_blank">원문</a></div></div>';
+  }).join('');
+}
+
+// ---------- bar chart
+function niceStep(max, n) { const raw = max / n, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; }
+function renderBars() {
+  const rows = M.univs.map(u => ({ u, c: cur(u.key) })).filter(r => r.c.ratio != null).sort((a, b) => b.c.ratio - a.c.ratio || b.c.applicants - a.c.applicants);
+  if (!rows.length) { $('#bars').innerHTML = '<p class="small">데이터 없음</p>'; return; }
+  const maxV = Math.max(...rows.map(r => Math.max(r.c.ratio, r.c.vs_prev ? r.c.vs_prev.prev_ratio : 0)));
+  const step = niceStep(maxV * 1.1, 4), top = Math.ceil(maxV * 1.12 / step) * step || step;
+  const W = 640, rowH = 34, L = 74, R = 150, H = rows.length * rowH + 28;
+  const x = v => L + v / top * (W - L - R);
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-width:' + W + 'px;display:block">';
+  for (let v = 0; v <= top + 1e-9; v += step) { s += '<line x1="' + x(v) + '" y1="4" x2="' + x(v) + '" y2="' + (H - 22) + '" class="grid"/><text x="' + x(v) + '" y="' + (H - 6) + '" text-anchor="middle">' + (Math.round(v * 100) / 100) + '</text>'; }
+  s += '<line x1="' + L + '" y1="4" x2="' + L + '" y2="' + (H - 22) + '" class="axis"/>';
+  rows.forEach((r, i) => {
+    const y = 6 + i * rowH, hl = r.u.key === HL, w = Math.max(0, x(r.c.ratio) - L);
+    s += '<text x="' + (L - 8) + '" y="' + (y + 17) + '" text-anchor="end" class="lbl' + (hl ? ' hl' : '') + '">' + esc(r.u.name) + '</text>';
+    s += '<rect x="' + L + '" y="' + (y + 4) + '" width="' + w.toFixed(1) + '" height="20" rx="3" class="bar ' + (hl ? 'acc' : 'gray') + '"/>';
+    if (r.c.vs_prev) s += '<circle cx="' + x(r.c.vs_prev.prev_ratio).toFixed(1) + '" cy="' + (y + 14) + '" r="5" class="prevdot"/>';
+    const lx = Math.max(x(r.c.ratio), r.c.vs_prev ? x(r.c.vs_prev.prev_ratio) + 4 : 0) + 8;
+    s += '<text x="' + lx.toFixed(1) + '" y="' + (y + 18.5) + '" class="val">' + f2(r.c.ratio) + '<tspan class="sub"> · ' + fmt(r.c.applicants) + '명</tspan></text>';
+    const tipTxt = r.u.name + '\n경쟁률 ' + f2(r.c.ratio) + ' (지원 ' + fmt(r.c.applicants) + ' / 모집 ' + fmt(r.c.quota) + ')' + (r.c.vs_prev ? '\n작년 D+' + r.c.vs_prev.day_index + ' 17:00 경쟁률 ' + f2(r.c.vs_prev.prev_ratio) + ' (' + fmt(r.c.vs_prev.prev_applicants) + '명)' : '');
+    s += '<rect x="0" y="' + y + '" width="' + W + '" height="' + rowH + '" class="hit" data-tip="' + esc(tipTxt) + '"/>';
+  });
+  $('#bars').innerHTML = s + '</svg>';
+}
+
+// ---------- line chart
+function renderLines() {
+  const box = $('#lines');
+  const t0 = new Date(M.period.start + 'T00:00:00+09:00').getTime();
+  const tEnd = new Date(M.period.end + 'T00:00:00+09:00').getTime() + 864e5;
+  const now = new Date(M.generated_at).getTime();
+  const t1 = Math.min(tEnd, Math.max(now + 3 * 36e5, t0 + 24 * 36e5));
+  const ser = {}; KEYS.forEach(k => ser[k] = (M.series[k] || []).map(p => [new Date(p[0]).getTime(), p[1], p[2]]).filter(p => p[0] >= t0 && p[0] <= t1));
+  const cutH = parseInt(M.cutoff.split(':')[0], 10), cutM = parseInt(M.cutoff.split(':')[1], 10);
+  const prevPts = (M.prev.daily[HL] || []).map((v, i) => [t0 + i * 864e5 + (cutH * 60 + cutM) * 6e4, v]).filter(p => p[0] <= t1);
+  const vals = KEYS.flatMap(k => ser[k].map(p => p[1])).concat(prevPts.map(p => p[1]));
+  if (!vals.length) { box.innerHTML = '<p class="small">데이터 없음</p>'; return; }
+  const step = niceStep(Math.max(...vals) * 1.1, 5), yMax = Math.ceil(Math.max(...vals) * 1.12 / step) * step || step;
+  const W = 660, H = 300, L = 54, R = 96, T = 14, B = 34;
+  const x = t => L + (t - t0) / (t1 - t0) * (W - L - R), y = v => T + (1 - v / yMax) * (H - T - B);
+  let s = '<svg id="lineSvg" viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-width:' + W + 'px;display:block">';
+  for (let v = 0; v <= yMax + 1e-9; v += step) s += '<line x1="' + L + '" y1="' + y(v) + '" x2="' + (W - R) + '" y2="' + y(v) + '" class="grid"/><text x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + fmt(v) + '</text>';
+  for (let t = t0; t <= t1; t += 864e5) { const d = new Date(t); s += '<line x1="' + x(t) + '" y1="' + T + '" x2="' + x(t) + '" y2="' + (H - B) + '" class="axis"/><text x="' + (x(t) + 4) + '" y="' + (H - B + 16) + '">' + (d.getMonth() + 1) + '/' + d.getDate() + '(' + WD[d.getDay()] + ')</text>'; }
+  s += '<line x1="' + L + '" y1="' + y(0) + '" x2="' + (W - R) + '" y2="' + y(0) + '" class="axis"/>';
+  const labels = [];
+  const order = KEYS.filter(k => k !== HL).concat([HL]);
+  if (prevPts.length) {
+    s += '<polyline class="ln prev" points="' + prevPts.map(p => x(p[0]).toFixed(1) + ',' + y(p[1]).toFixed(1)).join(' ') + '"/>';
+    prevPts.forEach(p => s += '<circle cx="' + x(p[0]).toFixed(1) + '" cy="' + y(p[1]).toFixed(1) + '" r="4" class="prevdot"/>');
+    const lp = prevPts[prevPts.length - 1]; labels.push({ y: y(lp[1]), text: NAME[HL] + ' 작년 ' + fmt(lp[1]), cls: 'prev', x: x(lp[0]) + 8 });
+  }
+  order.forEach(k => {
+    const p = ser[k]; if (!p.length) return;
+    s += '<polyline class="ln' + (k === HL ? ' hl' : '') + '" points="' + p.map(q => x(q[0]).toFixed(1) + ',' + y(q[1]).toFixed(1)).join(' ') + '"/>';
+    const last = p[p.length - 1];
+    s += '<circle cx="' + x(last[0]).toFixed(1) + '" cy="' + y(last[1]).toFixed(1) + '" r="3" fill="' + (k === HL ? 'var(--accent)' : 'var(--gray-line)') + '"/>';
+    labels.push({ y: y(last[1]), text: NAME[k] + ' ' + fmt(last[1]), cls: k === HL ? 'hl' : '', x: x(last[0]) + 8 });
+  });
+  labels.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 13) labels[i].y = labels[i - 1].y + 13;
+  for (let i = labels.length - 1; i >= 0; i--) { if (labels[i].y > H - B - 2) labels[i].y = H - B - 2; if (i < labels.length - 1 && labels[i + 1].y - labels[i].y < 13) labels[i].y = labels[i + 1].y - 13; }
+  labels.forEach(l => s += '<text x="' + Math.max(l.x, W - R + 6).toFixed(1) + '" y="' + (l.y + 4).toFixed(1) + '" class="endlbl ' + l.cls + '">' + esc(l.text) + '</text>');
+  s += '<line id="crossLine" class="cross" x1="0" y1="' + T + '" x2="0" y2="' + (H - B) + '" style="display:none"/>';
+  s += '<rect id="hover" x="' + L + '" y="' + T + '" width="' + (W - L - R) + '" height="' + (H - T - B) + '" class="hit"/></svg>';
+  box.innerHTML = s;
+  const svg = $('#lineSvg'), hv = $('#hover'), cl = $('#crossLine');
+  hv.addEventListener('mousemove', e => {
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    const t = t0 + (p.x - L) / (W - L - R) * (t1 - t0);
+    cl.setAttribute('x1', p.x); cl.setAttribute('x2', p.x); cl.style.display = '';
+    const lines = [mdhm(new Date(t).toISOString())];
+    KEYS.forEach(k => { const arr = ser[k].filter(q => q[0] <= t + 5 * 6e4); if (!arr.length) return; const q = arr[arr.length - 1]; if (t - q[0] > 6 * 36e5) return; lines.push(NAME[k] + ' ' + fmt(q[1]) + '명 (' + hhmm(new Date(q[0]).toISOString()) + (q[2] === 'manual' ? ', 수기' : '') + ')'); });
+    hv.setAttribute('data-tip', lines.join('\n'));
+  });
+  hv.addEventListener('mouseleave', () => { cl.style.display = 'none'; });
+}
+
+// ---------- daily table
+function dailyTable(rows, yearLabel, quotas, isThisYear) {
+  let h = '<table class="grid-tbl"><tr><th rowspan="3" class="gu">구분</th><th colspan="' + (KEYS.length * 2) + '" class="yr">' + esc(yearLabel) + ' 수시모집</th></tr><tr>';
+  M.univs.forEach(u => h += '<th colspan="2" class="un' + (u.highlight ? ' hl' : '') + '"><span>' + esc(u.name) + '</span><span class="q">' + fmt(quotas[u.key]) + '</span></th>');
+  h += '</tr><tr>'; M.univs.forEach(() => h += '<th class="sh">지원자</th><th class="sh">경쟁률</th>'); h += '</tr>';
+  rows.forEach(r => {
+    h += '<tr><td class="lab">' + esc(r.label) + (r.is_final ? ' <b>최종</b>' : '') + '</td>';
+    M.univs.forEach(u => {
+      const v = r.values[u.key], hl = u.highlight ? ' hl' : '';
+      if (v) h += '<td class="n' + hl + '" data-tip="' + esc((isThisYear ? mdhm(v.at) + ' 값' + (v.src === 'manual' ? ' (수기 기록)' : ' (자동 수집)') : yearLabel) + '\n' + u.name + ' ' + fmt(v.applicants) + ' / ' + fmt(v.quota)) + '">' + fmt(v.applicants) + '</td><td class="n' + hl + '">' + f2(v.ratio) + '</td>';
+      else h += '<td class="n empty' + hl + '"></td><td class="n empty' + hl + '"></td>';
+    });
+    h += '</tr>';
+  });
+  return h + '</table>';
+}
+function renderDaily() {
+  const quotas = {}; M.univs.forEach(u => quotas[u.key] = cur(u.key).quota || u.expected_quota);
+  $('#dailyHint').textContent = '매일 ' + M.cutoff + ' 기준값 (마지막 날은 접수 종료 후 최종값)';
+  $('#daily').innerHTML = dailyTable(M.daily, M.year_label, quotas, true) + '<p class="cap">최종 (전년도 ' + esc(M.prev.label) + ')</p>' + dailyTable(M.prev.rows, M.prev.label, M.prev.quota, false);
+  $('#copyDaily').onclick = () => {
+    const tsv = (rows, label, quotas) => {
+      const out = [['구분'].concat(M.univs.flatMap(u => [u.name, fmt(quotas[u.key])])).join('\t'), ['\t'].concat(M.univs.flatMap(() => ['지원자', '경쟁률'])).join('\t').slice(1)];
+      rows.forEach(r => out.push([r.label + (r.is_final ? ' 최종' : '')].concat(M.univs.flatMap(u => { const v = r.values[u.key]; return v ? [v.applicants, f2(v.ratio)] : ['', '']; })).join('\t')));
+      return out.join('\n');
+    };
+    const text = (M.collected_at ? mdhm(M.collected_at) + ' 수집 기준\n' : '') + tsv(M.daily, M.year_label, quotas) + '\n\n최종 ' + M.prev.label + '\n' + tsv(M.prev.rows, M.prev.label, M.prev.quota);
+    navigator.clipboard.writeText(text).then(() => { $('#copyDaily').textContent = '복사됨 ✓'; setTimeout(() => $('#copyDaily').textContent = '엑셀용 복사(TSV)', 1500); });
+  };
+}
+
+// ---------- types
+let typeKey = HL;
+function renderTypes() {
+  $('#typeTabs').innerHTML = M.univs.map(u => '<button data-k="' + u.key + '" class="' + (u.key === typeKey ? 'on' : '') + '">' + esc(u.name) + '</button>').join('');
+  $('#typeTabs').querySelectorAll('button').forEach(b => b.onclick = () => { typeKey = b.dataset.k; renderTypes(); });
+  const u = M.univs.find(x => x.key === typeKey), c = cur(typeKey);
+  if (!c.types || !c.types.length) { $('#types').innerHTML = '<p class="small">전형별 데이터 없음' + (c.error ? ' (' + esc(c.error) + ')' : '') + '</p>'; return; }
+  let h = '<table class="tbl"><tr><th>구분</th><th>전형</th><th class="n">모집인원</th><th class="n">지원인원</th><th class="n">경쟁률</th><th class="n">지원-모집</th></tr>';
+  c.types.forEach(t => {
+    const gap = (t.quota != null && t.applicants != null) ? t.applicants - t.quota : null;
+    h += '<tr class="' + (t.under ? 'under' : '') + '"><td>' + esc(t.group || '') + '</td><td>' + esc(t.name) + '</td><td class="n">' + (t.quota != null ? fmt(t.quota) : esc(t.quota_text || '-')) + '</td><td class="n">' + fmt(t.applicants) + '</td><td class="n">' + f2(t.ratio_calc) + '</td><td class="n">' + (gap == null ? '-' : sgn(gap)) + '</td></tr>';
+  });
+  h += '<tr class="tot"><td></td><td>총계</td><td class="n">' + fmt(c.quota) + '</td><td class="n">' + fmt(c.applicants) + '</td><td class="n">' + f2(c.ratio) + '</td><td class="n">' + sgn(c.applicants - c.quota) + '</td></tr></table>';
+  h += '<p class="small">페이지 기준 ' + esc(c.page_ts || '-') + ' · <a href="' + esc(u.url) + '" target="_blank">원문 페이지</a>' + (c.notes && c.notes.length ? ' · ⚠ ' + esc(c.notes.join(' / ')) : '') + '</p>';
+  const ul = c.units_under_list || [];
+  if (c.units_total) {
+    h += '<details' + (u.highlight ? ' open' : '') + '><summary>모집단위 ' + fmt(c.units_total) + '개 중 현재 미달 ' + fmt(c.units_under) + '개 (' + Math.round(c.units_under / c.units_total * 100) + '%) — 경쟁률 낮은 순</summary><table class="tbl"><tr><th>전형</th><th>단과대학</th><th>모집단위</th><th class="n">모집</th><th class="n">지원</th><th class="n">경쟁률</th></tr>';
+    ul.forEach(x => h += '<tr><td>' + esc(x.type) + '</td><td>' + esc(x.college || '') + '</td><td>' + esc(x.unit) + '</td><td class="n">' + fmt(x.quota) + '</td><td class="n">' + fmt(x.applicants) + '</td><td class="n">' + f2(x.quota ? r2(x.applicants / x.quota) : null) + '</td></tr>');
+    h += '</table></details>';
+  }
+  $('#types').innerHTML = h;
+}
+
+// ---------- under summary
+function renderUnder() {
+  const rows = M.univs.map(u => ({ u, c: cur(u.key) })).filter(r => r.c.units_total).sort((a, b) => (b.c.units_under / b.c.units_total) - (a.c.units_under / a.c.units_total));
+  if (!rows.length) { $('#under').innerHTML = '<p class="small">데이터 없음</p>'; return; }
+  let h = '<table class="tbl"><tr><th>대학</th><th class="n">모집단위 수</th><th class="n">미달 수</th><th class="n">미달 비율</th><th style="width:40%">그래프</th><th class="n">전형 미달 수</th></tr>';
+  rows.forEach(r => { const pct = Math.round(r.c.units_under / r.c.units_total * 100); const tu = (r.c.types || []).filter(t => t.under).length; h += '<tr' + (r.u.highlight ? ' style="font-weight:700"' : '') + '><td>' + esc(r.u.name) + '</td><td class="n">' + fmt(r.c.units_total) + '</td><td class="n">' + fmt(r.c.units_under) + '</td><td class="n">' + pct + '%</td><td><div class="meter"><i style="width:' + pct + '%"></i></div></td><td class="n">' + tu + ' / ' + (r.c.types || []).length + '</td></tr>'; });
+  $('#under').innerHTML = h + '</table><p class="small">접수 진행 중이므로 "미달"은 현재 시점의 지원 &lt; 모집 상태를 뜻함. 정원외·"제한없음" 등 모집인원이 숫자가 아닌 행은 제외.</p>';
+}
+
+// ---------- manual
+function renderManual() {
+  const opts = M.univs.map(u => '<option value="' + u.key + '">' + esc(u.name) + '</option>').join('');
+  const list = Object.keys(overrides).map(k => '<span class="badge">' + esc(NAME[k] || k) + ' ' + fmt(overrides[k].applicants) + '명 (' + esc(overrides[k].at || '') + ') <button data-del="' + k + '">해제</button></span>').join(' ');
+  $('#manual').innerHTML = '<div class="form"><select id="mKey">' + opts + '</select><input id="mA" type="number" placeholder="지원자"><input id="mQ" type="number" placeholder="모집인원"><input id="mAt" type="text" placeholder="기준시각 (예 09-08 17:00)" style="width:170px"><button id="mApply">적용</button>' + (list ? '<button id="mClear">모두 해제</button>' : '') + '</div>' +
+    (list ? '<p>' + list + '</p>' : '') +
+    '<p class="small">여기 입력한 값은 이 브라우저 화면(순위·경쟁률 타일)에만 반영됩니다. 이력·엑셀·공유 이미지에 남기려면 콘솔에서 <code>python collect.py --manual ' + HL + '=지원자 --at "2026-09-08 17:00"</code> 형태로 기록하세요.</p>';
+  const sel = $('#mKey'); const fill = () => { const c = cur(sel.value); $('#mQ').value = c.quota || (M.univs.find(u => u.key === sel.value) || {}).expected_quota || ''; };
+  sel.onchange = fill; fill();
+  $('#mApply').onclick = () => { const a = parseInt($('#mA').value, 10); if (isNaN(a)) return alert('지원자 수를 입력하세요'); overrides[sel.value] = { applicants: a, quota: parseInt($('#mQ').value, 10) || null, at: $('#mAt').value || mdhm(new Date().toISOString()) }; saveOverrides(); renderAll(); };
+  const mc = $('#mClear'); if (mc) mc.onclick = () => { overrides = {}; saveOverrides(); renderAll(); };
+  $('#manual').querySelectorAll('button[data-del]').forEach(b => b.onclick = () => { delete overrides[b.dataset.del]; saveOverrides(); renderAll(); });
+}
+
+// ---------- footer
+function renderFooter() {
+  const src = M.univs.map(u => '<a href="' + esc(u.url) + '" target="_blank">' + esc(u.name) + '(' + (u.agency === 'uway' ? '유웨이' : u.agency === 'jinhak' ? '진학' : u.agency) + ')</a>').join(' · ');
+  $('#foot').innerHTML = '출처: ' + src + '<br>경쟁률 = 지원자 ÷ 모집인원(총계 행), 소수 셋째 자리 반올림 — 대행사 페이지 표기(동신대는 소수 첫째 자리)와 다를 수 있음. 작년 비교는 ' + esc(M.prev.label) + ' 일별 ' + esc(M.cutoff) + ' 기준 수기 기록. "예상 최종"은 작년 같은 차수 대비 단순 비례 추정으로 참고용. 생성 ' + esc(mdhm(M.generated_at)) + '.';
+}
+
+function renderAll() { renderHeader(); renderTiles(); renderBars(); renderLines(); renderDaily(); renderTypes(); renderUnder(); renderManual(); renderFooter(); }
+renderAll();
+})();
+</script>
+</body>
+</html>

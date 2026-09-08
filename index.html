@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2027학년도 수시모집 실시간 경쟁률 현황</title>
+<style>
+:root{--bg:#F3F5F8;--card:#FFFFFF;--border:#E2E6EC;--ink:#1A2230;--ink2:#56616F;--muted:#8B95A3;--navy:#1E3A6E;--blue:#2B6CE6;--blue-bg:#EBF2FF;--good:#1A7F37;--good-bg:#E7F5EC;--bad:#C0392B;--bad-bg:#FBECEA;--warn:#A15C00;--bar:#CBD3DD;--prev:#E5822B;--yellow:#FFF3D1;--yellow2:#FFF9E8;--tip:#1A2230}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.45}
+.wrap{max-width:1440px;margin:0 auto;padding:18px 22px 36px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px}
+.top h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.3px;color:var(--navy)}
+.top .sub{margin-top:4px;color:var(--ink2);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:2px 10px;font-size:12px;color:var(--ink2)}
+.chip.blue{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);font-weight:700}
+.chip.ok{border-color:#BFE3CB;color:var(--good);background:var(--good-bg)}
+.chip.bad{border-color:#F1C4BF;color:var(--bad);background:var(--bad-bg)}
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{font:inherit;font-size:13px;border:1px solid var(--border);background:#fff;color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;transition:.15s}
+button:hover{border-color:#B9C3D0;background:#F8FAFC}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;padding:8px 16px}
+button.primary:hover{background:#2159C4}
+button:disabled{opacity:.6;cursor:default}
+.switch{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ink2);cursor:pointer;user-select:none;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:#fff}
+.switch i{width:30px;height:16px;border-radius:999px;background:#CBD3DD;position:relative;transition:.15s}
+.switch i::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:.15s}
+.switch.on i{background:var(--good)} .switch.on i::after{left:16px}
+.status{font-size:12.5px;color:var(--ink2);min-height:18px;margin:-6px 0 10px;display:flex;gap:10px;align-items:center}
+.status .err{color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.card h2{margin:0 0 10px;font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:10px}
+.card h2 .hint{font-weight:400;font-size:12px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+@media (max-width:1100px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;box-shadow:0 1px 2px rgba(16,24,40,.04);position:relative}
+.tile.hl{border:1.5px solid var(--blue);background:linear-gradient(180deg,#F5F8FF,#fff)}
+.tile .nm{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px}
+.tile .rank{font-size:11px;font-weight:800;color:#fff;background:var(--navy);border-radius:6px;padding:2px 7px}
+.tile.hl .rank{background:var(--blue)}
+.tile .hero{font-size:34px;font-weight:800;letter-spacing:-.5px;line-height:1.1;margin:6px 0 4px;color:var(--ink)}
+.tile .hero small{font-size:13px;font-weight:500;color:var(--muted);margin-left:3px}
+.tile .line{font-size:12.5px;color:var(--ink2);margin-top:2px}
+.tile .line b{color:var(--ink)}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;border-radius:6px;padding:1px 7px;margin-left:4px}
+.pill.up{background:var(--good-bg);color:var(--good)} .pill.down{background:var(--bad-bg);color:var(--bad)} .pill.gray{background:#EEF1F5;color:var(--ink2)}
+.tile .foot{margin-top:8px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
+.tile .foot a{color:var(--muted)}
+.tile .err{color:var(--bad);font-size:12.5px;margin:8px 0}
+.two{display:grid;grid-template-columns:1.15fr 1fr;gap:14px}
+@media (max-width:1100px){.two{grid-template-columns:1fr}}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--ink2);margin:-2px 0 8px}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+.legend i.blue{background:var(--blue)} .legend i.gray{background:var(--bar)}
+.legend i.dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--prev)}
+svg text{font-family:inherit;fill:var(--ink2);font-size:12px}
+svg .lbl{fill:var(--ink);font-size:13px} svg .lbl.hl{fill:var(--blue);font-weight:800}
+svg .val{fill:var(--ink);font-size:12.5px;font-weight:800} svg .val tspan{font-weight:500;fill:var(--ink2)}
+svg .bar{fill:var(--bar)} svg .bar.hl{fill:#6BBF2A}
+svg .prevdot{fill:#fff;stroke:var(--prev);stroke-width:2}
+svg .grid{stroke:#EDF0F4} svg .axis{stroke:#D5DBE3}
+svg .hit{fill:transparent}
+table{border-collapse:collapse;width:100%}
+.grid-tbl{font-size:12.5px;table-layout:fixed}
+.grid-tbl th,.grid-tbl td{border:1px solid #D9DEE6;padding:5px 4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid-tbl .yr{background:var(--yellow);font-weight:800;font-size:13px}
+.grid-tbl .gu{background:var(--yellow);width:110px;font-weight:700}
+.grid-tbl .un{background:var(--yellow);font-weight:800} .grid-tbl .un.hl{color:var(--blue)} .grid-tbl .un .q{margin-left:6px;font-weight:600}
+.grid-tbl .sh{background:#FAFBFC;color:var(--ink2);font-weight:500}
+.grid-tbl .lab{background:#FAFBFC;font-weight:600}
+.grid-tbl .n{text-align:right;padding-right:8px;font-variant-numeric:tabular-nums}
+.grid-tbl .n.hl{background:var(--blue-bg)}
+.grid-tbl td.now{background:var(--yellow2);font-weight:800}
+.grid-tbl td.edit{cursor:pointer} .grid-tbl td.edit:hover{outline:2px solid var(--blue);outline-offset:-2px}
+.grid-tbl td.manual{color:#6B7684}
+.cap{font-size:12.5px;color:var(--ink2);margin:10px 0 5px;font-weight:600}
+.tbl{font-size:13px}
+.tbl th,.tbl td{border-bottom:1px solid #EDF0F4;padding:6px 8px;text-align:left}
+.tbl th{color:var(--ink2);font-weight:600;background:#FAFBFC;font-size:12.5px}
+.tbl td.n,.tbl th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tbl tr.under td{color:var(--bad)}
+.tbl tr.tot td{font-weight:800;border-top:2px solid #D5DBE3;background:#FAFBFC}
+.tbl tr.hl td{font-weight:800;background:var(--blue-bg)}
+.meter{height:9px;background:#EEF1F5;border-radius:999px;overflow:hidden;min-width:120px}
+.meter i{display:block;height:100%;background:var(--bad);border-radius:999px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tabs button{padding:5px 12px;border-radius:999px}
+.tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:700}
+details{margin-top:8px;border-top:1px dashed var(--border);padding-top:8px}
+summary{cursor:pointer;color:var(--ink2);font-size:13px;font-weight:600}
+.small{font-size:12px;color:var(--ink2)}
+footer{color:var(--muted);font-size:12px;margin-top:6px;line-height:1.6}
+footer a{color:var(--ink2)}
+#tip{position:fixed;pointer-events:none;background:var(--tip);color:#fff;padding:7px 10px;border-radius:8px;font-size:12px;line-height:1.45;display:none;z-index:9;max-width:340px;white-space:pre-line;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.modal{position:fixed;inset:0;background:rgba(20,28,40,.35);display:none;align-items:center;justify-content:center;z-index:10}
+.modal.show{display:flex}
+.modal .box{background:#fff;border-radius:12px;padding:18px 20px;min-width:320px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.modal h3{margin:0 0 6px;font-size:15px} .modal p{margin:0 0 10px;color:var(--ink2);font-size:13px}
+.modal input{font:inherit;font-size:15px;padding:7px 9px;border:1px solid #C9D1DC;border-radius:8px;width:100%}
+.modal .btns{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.loading{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),#7FB0FF);display:none;animation:ld 1s linear infinite;background-size:200% 100%}
+@keyframes ld{from{background-position:0 0}to{background-position:200% 0}}
+.loading.show{display:block}
+</style>
+</head>
+<body>
+<div class="loading" id="loading"></div>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title">2027학년도 수시모집 실시간 경쟁률 현황</h1>
+      <div class="sub" id="meta"></div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="btnRefresh">새로고침</button>
+      <label class="switch" id="autoSw"><i></i><span id="autoLabel">자동 갱신</span></label>
+      <button id="btnXlsx">엑셀 저장</button>
+      <button id="btnExport" title="이 PC의 수집 기록을 파일로 저장해 다른 PC로 보냅니다">기록 내보내기</button>
+      <button id="btnImport" title="다른 PC에서 내보낸 기록 파일을 합칩니다">기록 가져오기</button>
+    </div>
+  </header>
+  <div class="status" id="status"></div>
+  <section class="tiles" id="tiles"></section>
+  <section class="two">
+    <div class="card"><h2>경쟁률 순위 <span class="hint">현재 경쟁률 · ○ 작년 같은 날(17:00)</span></h2>
+      <div class="legend"><span><i style="background:#6BBF2A"></i>광주대</span><span><i class="gray"></i>타 대학</span><span><i class="dot"></i>작년 D+N 17:00 경쟁률</span></div><div id="bars"></div></div>
+    <div class="card"><h2>미달 모집단위 현황 <span class="hint">현재 지원 &lt; 모집인 모집단위</span></h2><div id="under"></div></div>
+  </section>
+  <section class="card"><h2>경쟁률 추이 <span class="hint" id="trendHint"></span><span style="flex:1"></span><span class="tabs" style="margin:0"><button id="trendDay" class="on">일자별</button><button id="trendHour">시간대별</button></span></h2><div class="legend" id="trendLegend"></div><div id="trend"></div></section>
+  <section class="card"><h2>일별 현황 <span class="hint" id="dailyHint"></span></h2><div id="daily"></div></section>
+  <section class="card"><h2>대학별 전형 현황 <span class="hint">경쟁률 = 지원 ÷ 모집 · 빨간 행 = 현재 지원 &lt; 모집</span></h2><div class="tabs" id="typeTabs"></div><div id="types"></div></section>
+  <footer id="foot"></footer>
+</div>
+<div id="tip"></div>
+<div class="modal" id="modal"><div class="box"><h3 id="mTitle"></h3><p id="mDesc"></p><input id="mVal" type="number" min="0" placeholder="지원자 수"><div class="btns"><button id="mCancel">취소</button><button class="primary" id="mOk">저장</button></div></div></div>
+<script>
+// 웹 버전: pywebview 대신 model.json 을 읽음 (GitHub Actions 가 10분마다 갱신)
+window.pywebview = { api: {
+  get_model: () => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()),
+  refresh: () => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()),
+  open_url: u => { window.open(u, '_blank'); return Promise.resolve(true); },
+  log_js: () => Promise.resolve(true),
+  open_log: () => Promise.resolve(true),
+}};
+window.addEventListener('DOMContentLoaded', () => {
+  ['btnXlsx','btnExport','btnImport'].forEach(id => { const b = document.getElementById(id); if (b) b.style.display = 'none'; });
+  const st = document.createElement('style'); st.textContent = '.grid-tbl td.edit{cursor:default} .grid-tbl td.edit:hover{outline:none}'; document.head.appendChild(st);
+  setTimeout(() => window.dispatchEvent(new Event('pywebviewready')), 50);
+});
+</script>
+<script>
+(function(){
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => (n == null ? '-' : Number(n).toLocaleString('ko-KR'));
+const f2 = x => (x == null ? '-' : Number(x).toFixed(2));
+const sgn = n => (n == null ? '-' : (n >= 0 ? '+' : '') + fmt(n));
+const pad = n => String(n).padStart(2, '0');
+const hhmm = iso => { const d = new Date(iso); return pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const mdhm = iso => { if (!iso) return '-'; const d = new Date(iso); return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + hhmm(iso); };
+const r2 = x => Math.round((x + Number.EPSILON) * 100) / 100;
+let M = null, HL = null, KEYS = [], NAME = {}, typeKey = null;
+let auto = true; try { auto = localStorage.getItem('susi_auto') !== '0'; } catch (e) {}
+const api = () => (window.pywebview && window.pywebview.api) || null;
+
+// ---------- tooltip
+const tip = $('#tip');
+document.addEventListener('mousemove', e => {
+  const t = e.target.closest('[data-tip]');
+  if (!t) { tip.style.display = 'none'; return; }
+  tip.textContent = t.getAttribute('data-tip'); tip.style.display = 'block';
+  tip.style.left = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 8) + 'px';
+  tip.style.top = Math.min(e.clientY + 14, window.innerHeight - tip.offsetHeight - 8) + 'px';
+});
+
+function setStatus(msg, err) { $('#status').innerHTML = msg ? '<span class="' + (err ? 'err' : '') + '">' + esc(msg) + '</span>' : ''; }
+function busy(on) { $('#loading').classList.toggle('show', on); $('#btnRefresh').disabled = on; $('#btnRefresh').textContent = on ? '갱신 중…' : '새로고침'; }
+
+// ---------- header
+function renderHeader() {
+  const al = $('#autoLabel'); if (al) al.textContent = M.interval_minutes + '분마다 자동 갱신';
+  const okN = KEYS.filter(k => M.current[k].ok).length, di = M.period.day_index;
+  const pts = M.page_ts_range;
+  $('#title').textContent = M.title;
+  $('#meta').innerHTML = [
+    '<span>' + esc(M.subtitle) + '</span>',
+    '<span class="chip blue">' + (di ? 'D+' + di + '일차' : '접수기간 외') + '</span>',
+    '<span class="chip">수집 ' + esc(mdhm(M.collected_at)) + '</span>',
+    pts ? '<span class="chip">페이지 기준 ' + esc(pts[0].slice(5)) + (pts[1] !== pts[0] ? ' ~ ' + esc(pts[1].slice(11)) : '') + '</span>' : '',
+    '<span class="chip ' + (okN === KEYS.length ? 'ok' : 'bad') + '">' + (okN === KEYS.length ? '8개교 정상' : '정상 ' + okN + '/' + KEYS.length + '개교') + '</span>',
+    '<span id="countdown" class="chip"></span>'
+  ].join('');
+  const end = new Date(M.period.end_dt);
+  const tick = () => { const el = $('#countdown'); if (!el) return; const ms = end - Date.now();
+    if (ms <= 0) { el.textContent = '접수 종료'; return; }
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    el.textContent = '접수 종료까지 ' + (d ? d + '일 ' : '') + h + '시간 ' + m + '분'; };
+  tick(); if (!window.__cd) window.__cd = setInterval(tick, 30000);
+}
+
+// ---------- tiles
+function renderTiles() {
+  $('#tiles').innerHTML = M.univs.map(u => {
+    const c = M.current[u.key], hl = u.highlight ? ' hl' : '';
+    if (c.applicants == null) return '<div class="tile' + hl + '"><div class="nm">' + esc(u.name) + '</div><div class="err">수집 실패 · ' + esc(c.error || '') + '</div><div class="foot"><a href="#" data-url="' + esc(u.url) + '">원문 페이지</a></div></div>';
+    const vp = c.vs_prev, dc = c.delta_cut;
+    let vpHtml = '';
+    if (vp) { const up = vp.diff >= 0; vpHtml = '<div class="line" data-tip="' + esc('작년 ' + M.prev.label + ' D+' + vp.day_index + ' ' + M.cutoff + ' 기준 ' + fmt(vp.prev_applicants) + '명 → 올해 ' + vp.basis + ' ' + fmt(vp.this_applicants) + '명') + '">작년 D+' + vp.day_index + ' 대비 <span class="pill ' + (up ? 'up' : 'down') + '">' + (up ? '▲' : '▼') + ' ' + sgn(vp.diff) + (vp.pct != null ? ' (' + (vp.pct >= 0 ? '+' : '') + vp.pct.toFixed(1) + '%)' : '') + '</span>' + (vp.basis.indexOf('현재') === 0 ? '<span class="pill gray">현재값</span>' : '') + '</div>'; }
+    const stale = c.stale ? '<span class="pill down" data-tip="' + esc(c.error || '') + '">이전값</span>' : (c.notes && c.notes.length ? '<span class="pill gray" data-tip="' + esc(c.notes.join('\n')) + '">주의</span>' : '');
+    return '<div class="tile' + hl + '"><div class="nm"><span class="rank">' + (c.rank || '-') + '위</span>' + esc(u.name) + stale + '</div>' +
+      '<div class="hero">' + f2(c.ratio) + '<small>: 1</small></div>' +
+      '<div class="line">지원 <b>' + fmt(c.applicants) + '</b> / 모집 ' + fmt(c.quota) + (c.rank_applicants ? ' <span class="small">(지원자 ' + c.rank_applicants + '위)</span>' : '') + '</div>' +
+      vpHtml + (dc ? '<div class="line">' + esc(dc.since) + ' 이후 <b>' + sgn(dc.value) + '</b>' + (c.delta_1h != null ? ' · 최근 1h <b>' + sgn(c.delta_1h) + '</b>' : '') + '</div>' : '') +
+      '<div class="foot"><span>페이지 기준 ' + esc((c.page_ts || '').slice(5)) + '</span><a href="#" data-url="' + esc(u.url) + '">원문</a></div></div>';
+  }).join('');
+}
+
+// ---------- bar chart
+function niceStep(max, n) { const raw = max / n, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; }
+function renderBars() {
+  const rows = M.univs.map(u => ({ u, c: M.current[u.key] })).filter(r => r.c.ratio != null).sort((a, b) => b.c.ratio - a.c.ratio || b.c.applicants - a.c.applicants);
+  if (!rows.length) { $('#bars').innerHTML = '<p class="small">데이터 없음</p>'; return; }
+  const maxV = Math.max(...rows.map(r => Math.max(r.c.ratio, r.c.vs_prev ? r.c.vs_prev.prev_ratio : 0)));
+  const step = niceStep(maxV * 1.1, 4), top = Math.ceil(maxV * 1.15 / step) * step || step;
+  const W = 660, rowH = 36, L = 76, R = 150, H = rows.length * rowH + 30;
+  const x = v => L + v / top * (W - L - R);
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="display:block">';
+  for (let v = 0; v <= top + 1e-9; v += step) s += '<line x1="' + x(v) + '" y1="4" x2="' + x(v) + '" y2="' + (H - 22) + '" class="grid"/><text x="' + x(v) + '" y="' + (H - 6) + '" text-anchor="middle">' + (Math.round(v * 100) / 100) + '</text>';
+  s += '<line x1="' + L + '" y1="4" x2="' + L + '" y2="' + (H - 22) + '" class="axis"/>';
+  rows.forEach((r, i) => {
+    const y = 6 + i * rowH, hl = r.u.key === HL, w = Math.max(0, x(r.c.ratio) - L);
+    s += '<text x="' + (L - 8) + '" y="' + (y + 18) + '" text-anchor="end" class="lbl' + (hl ? ' hl' : '') + '">' + esc(r.u.name) + '</text>';
+    s += '<rect x="' + L + '" y="' + (hl ? y + 2 : y + 5) + '" width="' + w.toFixed(1) + '" height="' + (hl ? 28 : 22) + '" rx="4" class="bar' + (hl ? ' hl' : '') + '"/>';
+    if (r.c.vs_prev) s += '<circle cx="' + x(r.c.vs_prev.prev_ratio).toFixed(1) + '" cy="' + (y + 16) + '" r="5" class="prevdot"/>';
+    const lx = Math.max(x(r.c.ratio), r.c.vs_prev ? x(r.c.vs_prev.prev_ratio) + 4 : 0) + 8;
+    s += '<text x="' + lx.toFixed(1) + '" y="' + (y + 20.5) + '" class="val">' + f2(r.c.ratio) + '<tspan> · ' + fmt(r.c.applicants) + '명</tspan></text>';
+    s += '<rect x="0" y="' + y + '" width="' + W + '" height="' + rowH + '" class="hit" data-tip="' + esc(r.u.name + '\n경쟁률 ' + f2(r.c.ratio) + ' (지원 ' + fmt(r.c.applicants) + ' / 모집 ' + fmt(r.c.quota) + ')' + (r.c.vs_prev ? '\n작년 D+' + r.c.vs_prev.day_index + ' 17:00 경쟁률 ' + f2(r.c.vs_prev.prev_ratio) + ' (' + fmt(r.c.vs_prev.prev_applicants) + '명)' : '')) + '"/>';
+  });
+  $('#bars').innerHTML = s + '</svg>';
+}
+
+// ---------- trend (grouped bars: 대학별 그룹, 막대 = 일자 또는 시간대)
+let trendMode = location.hash === '#hour' ? 'hour' : 'day';
+// 옅은 색 → 최신 막대가 대표색(타 대학 파랑 #2A78D6, 광주대 연두 #6BBF2A)이 되도록 배열
+const RAMP_BLUE = ['#DCE9FA', '#B7D3F6', '#9EC5F4', '#86B6EF', '#6DA7EC', '#5598E7', '#3987E5', '#2A78D6'];
+const RAMP_GREEN = ['#EAF6DC', '#D4F0B8', '#BEE79A', '#A9DE7E', '#95D563', '#82CC4B', '#76C63A', '#6BBF2A'];
+function trendData() {
+  const quotaOf = k => M.current[k].quota || (M.univs.find(u => u.key === k) || {}).expected_quota;
+  if (trendMode === 'day') {
+    const cols = M.daily.filter(r => Object.keys(r.values).length).map(r => ({ label: r.label.replace(/\(.\)$/, m => m), short: r.label.slice(r.label.indexOf('월 ') + 2).replace('일', ''), values: Object.fromEntries(KEYS.map(k => [k, r.values[k] ? r.values[k].ratio : null])) }));
+    if (M.collected_at) cols.push({ label: '현재 (' + hhmm(M.collected_at) + ')', short: '현재', now: true, values: Object.fromEntries(KEYS.map(k => [k, M.current[k].ratio])) });
+    return { cols, hint: '매일 ' + M.cutoff + ' 기준 경쟁률과 현재값 · 대학별로 묶어서 표시' };
+  }
+  const today = M.collected_at ? new Date(M.collected_at) : new Date();
+  const buckets = {};
+  KEYS.forEach(k => (M.series[k] || []).forEach(p => { const d = new Date(p[0]); if (d.toDateString() !== today.toDateString()) return; const h = d.getHours(); buckets[h] = buckets[h] || {}; buckets[h][k] = r2(p[1] / quotaOf(k)); }));
+  const hours = Object.keys(buckets).map(Number).sort((a, b) => a - b).slice(-8);
+  const cols = hours.map(h => ({ label: pad(h) + '시', short: pad(h) + '시', values: Object.fromEntries(KEYS.map(k => [k, buckets[h][k] != null ? buckets[h][k] : null])) }));
+  return { cols, hint: '오늘 시간대별 경쟁률 (각 시간대의 마지막 수집값, 최근 8개 시간대)' };
+}
+function renderTrend() {
+  $('#trendDay').classList.toggle('on', trendMode === 'day'); $('#trendHour').classList.toggle('on', trendMode === 'hour');
+  const { cols, hint } = trendData();
+  $('#trendHint').textContent = hint;
+  if (!cols.length) { $('#trend').innerHTML = '<p class="small">표시할 데이터가 없습니다.</p>'; $('#trendLegend').innerHTML = ''; return; }
+  const n = cols.length, maxV = Math.max(0.1, ...cols.flatMap(c => KEYS.map(k => c.values[k] || 0)));
+  const step = niceStep(maxV * 1.1, 4), top = Math.ceil(maxV * 1.2 / step) * step || step;
+  const W = 1360, H = 320, L = 46, R = 16, T = 18, B = 44;
+  const gw = (W - L - R) / KEYS.length;
+  const y = v => T + (1 - v / top) * (H - T - B);
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="display:block">';
+  for (let v = 0; v <= top + 1e-9; v += step) s += '<line x1="' + L + '" y1="' + y(v) + '" x2="' + (W - R) + '" y2="' + y(v) + '" class="grid"/><text x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + (Math.round(v * 100) / 100) + '</text>';
+  s += '<line x1="' + L + '" y1="' + y(0) + '" x2="' + (W - R) + '" y2="' + y(0) + '" class="axis"/>';
+  KEYS.forEach((k, gi) => {
+    const hl = k === HL, ramp = hl ? RAMP_GREEN : RAMP_BLUE;
+    const bw = hl ? Math.min(22, (gw - 16) / n) : Math.min(16, (gw - 24) / n), gap = 3;
+    const total = n * bw + (n - 1) * gap, x0 = L + gi * gw + (gw - total) / 2;
+    cols.forEach((c, ci) => {
+      const v = c.values[k]; if (v == null) return;
+      const x = x0 + ci * (bw + gap), col = ramp[Math.min(ramp.length - 1, Math.round(ci / Math.max(1, n - 1) * (ramp.length - 1)))];
+      const FL = window.__FLAGS__ || {};
+      s += '<rect x="' + x.toFixed(1) + '" y="' + y(v).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (y(0) - y(v)).toFixed(1) + '" rx="3" fill="' + col + '"' + (c.now && !FL.NODASH ? ' stroke="#1A2230" stroke-width="1" stroke-dasharray="3 2"' : '') + (FL.NOTIP ? '' : ' data-tip="' + esc(NAME[k] + ' · ' + c.label + '\n경쟁률 ' + f2(v)) + '"') + '/>';
+      if (ci === n - 1) s += '<text x="' + (x + bw / 2).toFixed(1) + '" y="' + (y(v) - 5).toFixed(1) + '" text-anchor="middle" class="val" style="font-size:11.5px">' + f2(v) + '</text>';
+    });
+    s += '<text x="' + (L + gi * gw + gw / 2).toFixed(1) + '" y="' + (H - B + 18) + '" text-anchor="middle" class="lbl' + (hl ? ' hl' : '') + '"' + (hl ? ' style="fill:#3F8618"' : '') + '>' + esc(NAME[k]) + '</text>';
+  });
+  $('#trend').innerHTML = s + '</svg>';
+  $('#trendLegend').innerHTML = cols.map((c, ci) => { const i = Math.min(RAMP_BLUE.length - 1, Math.round(ci / Math.max(1, n - 1) * (RAMP_BLUE.length - 1))); return '<span><i style="background:' + RAMP_BLUE[i] + '"></i>' + esc(c.label) + '</span>'; }).join('') + '<span><i style="background:#6BBF2A"></i>광주대는 연두색·굵은 막대</span>';
+}
+$('#trendDay').onclick = () => { trendMode = 'day'; renderTrend(); };
+$('#trendHour').onclick = () => { trendMode = 'hour'; renderTrend(); };
+
+// ---------- under summary
+function renderUnder() {
+  const rows = M.univs.map(u => ({ u, c: M.current[u.key] })).filter(r => r.c.units_total).sort((a, b) => (b.c.units_under / b.c.units_total) - (a.c.units_under / a.c.units_total));
+  if (!rows.length) { $('#under').innerHTML = '<p class="small">데이터 없음</p>'; return; }
+  let h = '<table class="tbl"><tr><th>대학</th><th class="n">모집단위</th><th class="n">미달</th><th class="n">비율</th><th style="width:38%"></th><th class="n">전형 미달</th></tr>';
+  rows.forEach(r => { const pct = Math.round(r.c.units_under / r.c.units_total * 100), tu = (r.c.types || []).filter(t => t.under).length;
+    h += '<tr class="' + (r.u.key === HL ? 'hl' : '') + '"><td>' + esc(r.u.name) + '</td><td class="n">' + fmt(r.c.units_total) + '</td><td class="n">' + fmt(r.c.units_under) + '</td><td class="n">' + pct + '%</td><td><div class="meter"><i style="width:' + pct + '%"></i></div></td><td class="n">' + tu + ' / ' + (r.c.types || []).length + '</td></tr>'; });
+  $('#under').innerHTML = h + '</table><p class="small" style="margin:8px 0 0">접수 진행 중이므로 "미달"은 현재 시점 기준. 모집인원·지원인원이 함께 표기된 모집단위만 계산(광역 모집단위는 1건).</p>';
+}
+
+// ---------- daily
+function dailyTable(rows, yearLabel, quotas, editable) {
+  let h = '<table class="grid-tbl"><tr><th rowspan="3" class="gu">구분</th><th colspan="' + (KEYS.length * 2) + '" class="yr">' + esc(yearLabel) + ' 수시모집</th></tr><tr>';
+  M.univs.forEach(u => h += '<th colspan="2" class="un' + (u.highlight ? ' hl' : '') + '">' + esc(u.name) + '<span class="q">' + fmt(quotas[u.key]) + '</span></th>');
+  h += '</tr><tr>'; M.univs.forEach(() => h += '<th class="sh">지원자</th><th class="sh">경쟁률</th>'); h += '</tr>';
+  rows.forEach(r => {
+    h += '<tr><td class="lab">' + esc(r.label) + (r.is_final ? ' 최종' : '') + '</td>';
+    M.univs.forEach(u => {
+      const v = r.values[u.key], hl = u.highlight ? ' hl' : '', now = r.now ? ' now' : '';
+      const ed = editable && !r.now ? ' edit' : '', man = v && v.src === 'manual' ? ' manual' : '';
+      const attrs = ed ? ' data-edit="' + u.key + '|' + r.date + '"' : '';
+      const tipTxt = v ? (r.now ? '현재값' : (v.at ? mdhm(v.at) + ' 값' + (v.src === 'manual' ? ' (수기 입력)' : ' (자동 수집)') : yearLabel)) + '\n' + u.name + ' ' + fmt(v.applicants) + ' / ' + fmt(v.quota) : (ed ? '클릭해서 직접 입력' : '');
+      if (v) h += '<td class="n' + hl + now + ed + man + '"' + attrs + ' data-tip="' + esc(tipTxt) + '">' + fmt(v.applicants) + '</td><td class="n' + hl + now + ed + man + '"' + attrs + '>' + f2(v.ratio) + '</td>';
+      else h += '<td class="n' + hl + ed + '"' + attrs + (ed ? ' data-tip="클릭해서 직접 입력"' : '') + '></td><td class="n' + hl + ed + '"' + attrs + '></td>';
+    });
+    h += '</tr>';
+  });
+  return h + '</table>';
+}
+function renderDaily() {
+  const quotas = {}; M.univs.forEach(u => quotas[u.key] = M.current[u.key].quota || u.expected_quota);
+  $('#dailyHint').textContent = '매일 ' + M.cutoff + ' 기준 · 마지막 날은 접수 종료 후 최종값 · 빈 칸은 클릭해서 직접 입력';
+  const nowRow = { label: '현재 (' + hhmm(M.collected_at) + ')', now: true, values: {} };
+  KEYS.forEach(k => { const c = M.current[k]; if (c.applicants != null) nowRow.values[k] = { applicants: c.applicants, quota: c.quota, ratio: c.ratio }; });
+  $('#daily').innerHTML = dailyTable([nowRow].concat(M.daily), M.year_label, quotas, true) + '<p class="cap">최종 (' + esc(M.prev.label) + ', 전년도)</p>' + dailyTable(M.prev.rows, M.prev.label, M.prev.quota, false);
+  
+}
+
+// ---------- types
+function renderTypes() {
+  if (!typeKey) typeKey = HL;
+  $('#typeTabs').innerHTML = M.univs.map(u => '<button data-k="' + u.key + '" class="' + (u.key === typeKey ? 'on' : '') + '">' + esc(u.name) + '</button>').join('');
+  $('#typeTabs').querySelectorAll('button').forEach(b => b.onclick = () => { typeKey = b.dataset.k; renderTypes(); });
+  const u = M.univs.find(x => x.key === typeKey), c = M.current[typeKey];
+  if (!c.types || !c.types.length) { $('#types').innerHTML = '<p class="small">전형별 데이터 없음' + (c.error ? ' (' + esc(c.error) + ')' : '') + '</p>'; return; }
+  let h = '<table class="tbl"><tr><th>구분</th><th>전형</th><th class="n">모집인원</th><th class="n">지원인원</th><th class="n">경쟁률</th><th class="n">지원－모집</th></tr>';
+  c.types.forEach(t => { const gap = (t.quota != null && t.applicants != null) ? t.applicants - t.quota : null;
+    h += '<tr class="' + (t.under ? 'under' : '') + '"><td>' + esc(t.group || '') + '</td><td>' + esc(t.name) + '</td><td class="n">' + (t.quota != null ? fmt(t.quota) : esc(t.quota_text || '-')) + '</td><td class="n">' + fmt(t.applicants) + '</td><td class="n">' + f2(t.ratio_calc) + '</td><td class="n">' + (gap == null ? '-' : sgn(gap)) + '</td></tr>'; });
+  h += '<tr class="tot"><td></td><td>총계</td><td class="n">' + fmt(c.quota) + '</td><td class="n">' + fmt(c.applicants) + '</td><td class="n">' + f2(c.ratio) + '</td><td class="n">' + sgn(c.applicants - c.quota) + '</td></tr></table>';
+  h += '<p class="small" style="margin:8px 0 0">페이지 기준 ' + esc(c.page_ts || '-') + ' · <a href="#" data-url="' + esc(u.url) + '">원문 페이지 열기</a>' + (c.notes && c.notes.length ? ' · ⚠ ' + esc(c.notes.join(' / ')) : '') + '</p>';
+  if (c.units_total) {
+    const ul = c.units_under_list || [];
+    h += '<details><summary>모집단위 ' + fmt(c.units_total) + '개 중 현재 미달 ' + fmt(c.units_under) + '개 (' + Math.round(c.units_under / c.units_total * 100) + '%) — 목록 보기 (경쟁률 낮은 순)</summary><table class="tbl" style="margin-top:6px"><tr><th>전형</th><th>단과대학</th><th>모집단위</th><th class="n">모집</th><th class="n">지원</th><th class="n">경쟁률</th></tr>';
+    ul.forEach(x => h += '<tr><td>' + esc(x.type) + '</td><td>' + esc(x.college || '') + '</td><td>' + esc(x.unit) + '</td><td class="n">' + fmt(x.quota) + '</td><td class="n">' + fmt(x.applicants) + '</td><td class="n">' + f2(x.quota ? r2(x.applicants / x.quota) : null) + '</td></tr>');
+    h += '</table></details>';
+  }
+  $('#types').innerHTML = h;
+}
+
+function renderFooter() {
+  const src = M.univs.map(u => '<a href="#" data-url="' + esc(u.url) + '">' + esc(u.name) + '(' + (u.agency === 'uway' ? '유웨이' : '진학') + ')</a>').join(' · ');
+  $('#foot').innerHTML = '출처: ' + src + '<br>경쟁률 = 지원자 ÷ 모집인원(각 페이지 총계 행, 소수 셋째 자리 반올림). 유웨이 5분·진학 10분 단위 갱신, 마지막 날 경쟁률 서비스는 17:00 전후 종료(광주여대 19:00). 작년 비교는 ' + esc(M.prev.label) + ' 일별 ' + esc(M.cutoff) + ' 기준 기록.' + (M.app_version ? '<br><span style="color:#B0B8C4">수시 경쟁률 현황 ' + esc(M.app_version) + (M.host ? ' · PC ' + esc(M.host) : '') + ' · GitHub Actions 가 10분마다 수집</span>' : '');
+  const ol = $('#openLog'); if (ol) ol.onclick = e => { e.preventDefault(); const A = api(); if (A) A.open_log(); };
+}
+
+function renderAll() {
+  HL = (M.univs.find(u => u.highlight) || M.univs[0]).key; KEYS = M.univs.map(u => u.key); NAME = Object.fromEntries(M.univs.map(u => [u.key, u.name]));
+  const F = window.__FLAGS__ || {};
+  renderHeader(); if (!F.NOTILES) renderTiles(); if (!F.NOBARS) renderBars(); renderUnder(); if (!F.NOTREND) renderTrend(); renderDaily(); renderTypes(); renderFooter();
+  document.querySelectorAll('a[data-url]').forEach(a => a.onclick = e => { e.preventDefault(); const A = api(); if (A) A.open_url(a.dataset.url); else window.open(a.dataset.url); });
+}
+
+// ---------- actions
+async function load() { const A = api(); if (!A) return; busy(true); try { M = await A.get_model(); renderAll(); } catch (e) { setStatus('불러오기 실패: ' + e, true); } busy(false); }
+async function refresh() { const A = api(); if (!A) { setStatus('앱 API 없음(브라우저 미리보기)', true); return; } busy(true); setStatus('8개 대학 페이지 조회 중…');
+  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus(fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '갱신 완료 ' + mdhm(M.collected_at), fails.length > 0); }
+  catch (e) { setStatus('갱신 실패: ' + e, true); } busy(false); }
+$('#btnRefresh').onclick = refresh;
+$('#btnXlsx').onclick = async () => { const A = api(); if (!A) return; try { const p = await A.save_xlsx(); setStatus('엑셀 저장: ' + p); } catch (e) { setStatus('엑셀 저장 실패: ' + e, true); } };
+$('#btnExport').onclick = async () => { const A = api(); if (!A) return; try { const p = await A.export_records(); setStatus(p ? '기록을 저장했습니다: ' + p + ' — 이 파일을 다른 PC에 보내 "기록 가져오기"로 합치면 일별표가 같아집니다.' : '취소됨'); } catch (e) { setStatus('기록 내보내기 실패: ' + e, true); } };
+$('#btnImport').onclick = async () => { const A = api(); if (!A) return; busy(true); try { const r = await A.import_records(); if (r) { M = r.model; renderAll(); setStatus('기록 ' + r.added + '건을 합쳤습니다 (전체 ' + r.total + '건): ' + r.path); } else setStatus('취소됨'); } catch (e) { setStatus('기록 가져오기 실패: ' + e, true); } busy(false); };
+window.addEventListener('error', e => { const A = api(); if (A) A.log_js((e.message || 'error') + ' @' + (e.lineno || '') + ':' + (e.colno || '')); });
+window.addEventListener('unhandledrejection', e => { const A = api(); if (A) A.log_js('unhandled: ' + (e.reason && e.reason.message ? e.reason.message : e.reason)); });
+const sw = $('#autoSw'); const paintSw = () => sw.classList.toggle('on', auto);
+sw.onclick = () => { auto = !auto; try { localStorage.setItem('susi_auto', auto ? '1' : '0'); } catch (e) {} paintSw(); }; paintSw();
+setInterval(() => {
+  if (!auto || !M || $('#btnRefresh').disabled) return;
+  const now = new Date(), last = M.collected_at ? new Date(M.collected_at) : null;
+  const due = !last || (now - last) >= M.interval_minutes * 60e3;
+  const [ch, cm] = M.cutoff.split(':').map(Number);
+  const atCut = now.getHours() === ch && now.getMinutes() === cm && (!last || (now - last) > 50e3);
+  if (due || atCut) refresh();
+}, 30e3);
+
+// ---------- manual modal
+let modalCtx = null;
+function openModal(key, date) { modalCtx = { key, date }; $('#mTitle').textContent = NAME[key] + ' · ' + date + ' ' + M.cutoff + ' 기준 지원자'; $('#mDesc').textContent = '자동 수집이 없던 날의 값을 직접 기록합니다. 저장하면 일별표와 작년 비교에 반영됩니다.'; $('#mVal').value = ''; $('#modal').classList.add('show'); setTimeout(() => $('#mVal').focus(), 50); }
+$('#mCancel').onclick = () => $('#modal').classList.remove('show');
+$('#mOk').onclick = async () => { const v = parseInt($('#mVal').value, 10); if (isNaN(v)) return; const A = api(); if (!A) return; $('#modal').classList.remove('show'); busy(true);
+  try { M = await A.set_manual(modalCtx.key, modalCtx.date, v); renderAll(); setStatus('수동 값 저장: ' + NAME[modalCtx.key] + ' ' + modalCtx.date + ' ' + fmt(v) + '명'); } catch (e) { setStatus('저장 실패: ' + e, true); } busy(false); };
+$('#mVal').addEventListener('keydown', e => { if (e.key === 'Enter') $('#mOk').click(); if (e.key === 'Escape') $('#mCancel').click(); });
+
+// ---------- boot
+window.addEventListener('pywebviewready', () => { load().then(() => { if (auto) refresh(); }); });
+setTimeout(() => { if (!api() && window.__MODEL__) { M = window.__MODEL__; renderAll(); } }, 800);
+})();
+</script>
+</body>
+</html>
