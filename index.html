@@ -397,7 +397,7 @@ function renderAll() {
 // ---------- actions
 async function load() { const A = api(); if (!A) return; busy(true); try { M = await A.get_model(); renderAll(); } catch (e) { setStatus('불러오기 실패: ' + e, true); } busy(false); }
 async function refresh() { const A = api(); if (!A) { setStatus('앱 API 없음(브라우저 미리보기)', true); return; } busy(true); setStatus('8개 대학 페이지 조회 중…');
-  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus((fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '실시간 조회 완료 ' + mdhm(M.collected_at)) + (M.live_error ? ' · ' + M.live_error : ''), fails.length > 0 || !!M.live_error); }
+  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus((fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '실시간 조회 완료 ' + mdhm(M.collected_at) + ' · 서울 서버가 8개 대학 페이지를 즉시 읽어옴 (사이트 부담을 줄이기 위해 1분에 한 번만 새로 읽음, 페이지 자체는 5~10분 단위 갱신)') + (M.live_error ? ' · ' + M.live_error : ''), fails.length > 0 || !!M.live_error); }
   catch (e) { setStatus('갱신 실패: ' + e, true); } busy(false); }
 $('#btnRefresh').onclick = refresh;
 $('#btnXlsx').onclick = async () => { const A = api(); if (!A) return; try { const p = await A.save_xlsx(); setStatus('엑셀 저장: ' + p); } catch (e) { setStatus('엑셀 저장 실패: ' + e, true); } };
