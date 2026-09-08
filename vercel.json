@@ -1,1 +1,1 @@
-{ "regions": ["icn1"] }
+{ "regions": ["icn1"], "functions": { "api/live.py": { "maxDuration": 30 } } }
