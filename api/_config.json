@@ -1,0 +1,54 @@
+{
+  "title": "2027학년도 수시모집 실시간 경쟁률 현황",
+  "subtitle": "광주·전남 8개 대학",
+  "year_label": "2027학년도",
+  "prev_year_label": "2026학년도",
+  "period": { "start": "2026-09-07", "end": "2026-09-11", "end_time": "18:00" },
+  "daily_cutoff": "17:00",
+  "interval_minutes": 5,
+  "request_delay_seconds": 1.5,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+  "chrome_paths": [
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+  ],
+  "universities": [
+    { "key": "gwangju",  "name": "광주대",   "full": "광주대학교",       "agency": "uway",   "auto": true, "highlight": true,
+      "url": "https://ratio.uwayapply.com/Sl5KOi9yVzhOckpmJSY6Jko3ZlRm", "admission_site": "https://iphak.gwangju.ac.kr/", "expected_quota": 1351 },
+    { "key": "honam",    "name": "호남대",   "full": "호남대학교",       "agency": "jinhak", "auto": true,
+      "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio11690691.html", "admission_site": "https://ipsi.honam.ac.kr/", "expected_quota": 1575 },
+    { "key": "dongshin", "name": "동신대",   "full": "동신대학교",       "agency": "uway",   "auto": true,
+      "url": "https://ratio.uwayapply.com/Sl5KOlclfCZyV2FWSmYlJjomSjdmVGY=", "admission_site": "https://ipsi.dsu.ac.kr/", "expected_quota": 1431 },
+    { "key": "mokpo",    "name": "목포대",   "full": "국립목포대학교",   "agency": "jinhak", "auto": true,
+      "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10690271.html", "admission_site": "https://ipsi.mokpo.ac.kr/", "expected_quota": 1782 },
+    { "key": "suncheon", "name": "순천대",   "full": "국립순천대학교",   "agency": "jinhak", "auto": true,
+      "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10990491.html", "admission_site": "https://ipsi.scnu.ac.kr/", "expected_quota": 1649 },
+    { "key": "kwu",      "name": "광주여대", "full": "광주여자대학교",   "agency": "uway",   "auto": true,
+      "url": "https://ratio.uwayapply.com/Sl5KOk45SmYlJjomSjdmVGY=", "admission_site": "https://ipsi.kwu.ac.kr/", "expected_quota": 855 },
+    { "key": "nambu",    "name": "남부대",   "full": "남부대학교",       "agency": "uway",   "auto": true,
+      "url": "https://ratio.uwayapply.com/Sl5KOkJNOFdKZiUmOiZKN2ZUZg==", "admission_site": "https://ipsi.nambu.ac.kr/", "expected_quota": 650 },
+    { "key": "songwon",  "name": "송원대",   "full": "송원대학교",       "agency": "uway",   "auto": true,
+      "url": "https://ratio.uwayapply.com/Sl5KV2FOcldhJkpmJSY6Jko3ZlRm", "admission_site": "https://ipsi.songwon.ac.kr/", "expected_quota": 638 }
+  ],
+  "prev_year": {
+    "label": "2026학년도",
+    "dates": ["2025-09-08", "2025-09-09", "2025-09-10", "2025-09-11", "2025-09-12"],
+    "quota": { "gwangju": 1358, "honam": 1574, "dongshin": 1420, "mokpo": 1797, "suncheon": 1649, "kwu": 842, "nambu": 650, "songwon": 658 },
+    "daily": {
+      "gwangju":  [412, 1314, 2528, 4084, 7246],
+      "honam":    [437, 1394, 2654, 4243, 7386],
+      "dongshin": [414, 1285, 2334, 3644, 5903],
+      "mokpo":    [459, 1401, 2722, 4516, 7505],
+      "suncheon": [387, 1250, 2477, 4095, 7018],
+      "kwu":      [281,  774, 1428, 2150, 3637],
+      "nambu":    [145,  489,  986, 1676, 2901],
+      "songwon":  [225,  332,  732, 1149, 1899]
+    }
+  },
+  "manual_seed": [
+    { "collected_at": "2026-09-07T17:00:00+09:00", "source": "수기 기록(카톡 공유표 2026-09-07 17:00 기준)",
+      "values": { "gwangju": 491, "honam": 399, "dongshin": 430, "mokpo": 525, "suncheon": 446, "kwu": 263, "nambu": 194, "songwon": 124 } }
+  ]
+}
