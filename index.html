@@ -40,9 +40,9 @@ button:disabled{opacity:.6;cursor:default}
 .tile.hl .rank{background:var(--blue)}
 .tile .hero{font-size:34px;font-weight:800;letter-spacing:-.5px;line-height:1.1;margin:6px 0 4px;color:var(--ink)}
 .tile .hero small{font-size:13px;font-weight:500;color:var(--muted);margin-left:3px}
-.tile .line{font-size:12.5px;color:var(--ink2);margin-top:2px}
+.tile .line{font-size:15px;color:var(--ink2);margin-top:3px}
 .tile .line b{color:var(--ink)}
-.pill{display:inline-block;font-size:11.5px;font-weight:700;border-radius:6px;padding:1px 7px;margin-left:4px}
+.pill{display:inline-block;font-size:14px;font-weight:700;border-radius:6px;padding:1px 7px;margin-left:4px}
 .pill.up{background:var(--good-bg);color:var(--good)} .pill.down{background:var(--bad-bg);color:var(--bad)} .pill.gray{background:#EEF1F5;color:var(--ink2)}
 .tile .foot{margin-top:8px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
 .tile .foot a{color:var(--muted)}
@@ -88,7 +88,7 @@ table{border-collapse:collapse;width:100%}
 .tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:700}
 details{margin-top:8px;border-top:1px dashed var(--border);padding-top:8px}
 summary{cursor:pointer;color:var(--ink2);font-size:13px;font-weight:600}
-.small{font-size:12px;color:var(--ink2)}
+.small{font-size:13px;color:var(--ink2)}
 footer{color:var(--muted);font-size:12px;margin-top:6px;line-height:1.6}
 footer a{color:var(--ink2)}
 #tip{position:fixed;pointer-events:none;background:var(--tip);color:#fff;padding:7px 10px;border-radius:8px;font-size:12px;line-height:1.45;display:none;z-index:9;max-width:340px;white-space:pre-line;box-shadow:0 4px 14px rgba(0,0,0,.25)}
@@ -134,7 +134,7 @@ footer a{color:var(--ink2)}
 <div id="tip"></div>
 <div class="modal" id="modal"><div class="box"><h3 id="mTitle"></h3><p id="mDesc"></p><input id="mVal" type="number" min="0" placeholder="지원자 수"><div class="btns"><button id="mCancel">취소</button><button class="primary" id="mOk">저장</button></div></div></div>
 <script>
-// 웹 버전: pywebview 대신 model.json 을 읽음 (GitHub Actions 가 10분마다 갱신)
+// 웹 버전: pywebview 대신 model.json 을 읽음 (PC exe 가 5분마다 게시, PC 꺼지면 GitHub Actions 가 유웨이 5개교 갱신)
 window.pywebview = { api: {
   get_model: () => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()),
   refresh: () => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()),
@@ -209,7 +209,7 @@ function renderTiles() {
     const stale = c.stale ? '<span class="pill down" data-tip="' + esc(c.error || '') + '">이전값</span>' : (c.notes && c.notes.length ? '<span class="pill gray" data-tip="' + esc(c.notes.join('\n')) + '">주의</span>' : '');
     return '<div class="tile' + hl + '"><div class="nm"><span class="rank">' + (c.rank || '-') + '위</span>' + esc(u.name) + stale + '</div>' +
       '<div class="hero">' + f2(c.ratio) + '<small>: 1</small></div>' +
-      '<div class="line">지원 <b>' + fmt(c.applicants) + '</b> / 모집 ' + fmt(c.quota) + (c.rank_applicants ? ' <span class="small">(지원자 ' + c.rank_applicants + '위)</span>' : '') + '</div>' +
+      '<div class="line">모집 ' + fmt(c.quota) + ' / 지원 <b>' + fmt(c.applicants) + '</b>' + (c.rank_applicants ? ' <span class="small">(지원자 ' + c.rank_applicants + '위)</span>' : '') + '</div>' +
       vpHtml + (dc ? '<div class="line">' + esc(dc.since) + ' 이후 <b>' + sgn(dc.value) + '</b>' + (c.delta_1h != null ? ' · 최근 1h <b>' + sgn(c.delta_1h) + '</b>' : '') + '</div>' : '') +
       '<div class="foot"><span>페이지 기준 ' + esc((c.page_ts || '').slice(5)) + '</span><a href="#" data-url="' + esc(u.url) + '">원문</a></div></div>';
   }).join('');
@@ -351,7 +351,7 @@ function renderTypes() {
 
 function renderFooter() {
   const src = M.univs.map(u => '<a href="#" data-url="' + esc(u.url) + '">' + esc(u.name) + '(' + (u.agency === 'uway' ? '유웨이' : '진학') + ')</a>').join(' · ');
-  $('#foot').innerHTML = '출처: ' + src + '<br>경쟁률 = 지원자 ÷ 모집인원(각 페이지 총계 행, 소수 셋째 자리 반올림). 유웨이 5분·진학 10분 단위 갱신, 마지막 날 경쟁률 서비스는 17:00 전후 종료(광주여대 19:00). 작년 비교는 ' + esc(M.prev.label) + ' 일별 ' + esc(M.cutoff) + ' 기준 기록.' + (M.app_version ? '<br><span style="color:#B0B8C4">수시 경쟁률 현황 ' + esc(M.app_version) + (M.host ? ' · PC ' + esc(M.host) : '') + ' · GitHub Actions 가 10분마다 수집</span>' : '');
+  $('#foot').innerHTML = '출처: ' + src + '<br>경쟁률 = 지원자 ÷ 모집인원(각 페이지 총계 행, 소수 셋째 자리 반올림). 유웨이 5분·진학 10분 단위 갱신, 마지막 날 경쟁률 서비스는 17:00 전후 종료(광주여대 19:00). 작년 비교는 ' + esc(M.prev.label) + ' 일별 ' + esc(M.cutoff) + ' 기준 기록.' + (M.app_version ? '<br><span style="color:#B0B8C4">수시 경쟁률 현황 ' + esc(M.app_version) + (M.host ? ' · PC ' + esc(M.host) : '') + ' · PC 에서 5분마다 게시</span>' : '');
   const ol = $('#openLog'); if (ol) ol.onclick = e => { e.preventDefault(); const A = api(); if (A) A.open_log(); };
 }
 
@@ -365,7 +365,7 @@ function renderAll() {
 // ---------- actions
 async function load() { const A = api(); if (!A) return; busy(true); try { M = await A.get_model(); renderAll(); } catch (e) { setStatus('불러오기 실패: ' + e, true); } busy(false); }
 async function refresh() { const A = api(); if (!A) { setStatus('앱 API 없음(브라우저 미리보기)', true); return; } busy(true); setStatus('8개 대학 페이지 조회 중…');
-  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus(fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '갱신 완료 ' + mdhm(M.collected_at), fails.length > 0); }
+  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus((fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '갱신 완료 ' + mdhm(M.collected_at)) + (M.published ? ' · ' + M.published : ''), fails.length > 0 || (M.published || '').indexOf('실패') >= 0); }
   catch (e) { setStatus('갱신 실패: ' + e, true); } busy(false); }
 $('#btnRefresh').onclick = refresh;
 $('#btnXlsx').onclick = async () => { const A = api(); if (!A) return; try { const p = await A.save_xlsx(); setStatus('엑셀 저장: ' + p); } catch (e) { setStatus('엑셀 저장 실패: ' + e, true); } };
