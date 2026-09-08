@@ -179,7 +179,7 @@ window.addEventListener('DOMContentLoaded', () => {
   ['btnXlsx','btnExport','btnImport'].forEach(id => { const b = document.getElementById(id); if (b) b.style.display = 'none'; });
   const st = document.createElement('style'); st.textContent = '.grid-tbl td.edit{cursor:default} .grid-tbl td.edit:hover{outline:none}'
     + ' .status{flex-wrap:wrap;white-space:normal;word-break:keep-all} .status span{white-space:normal} .card,.tiles{max-width:100%} .card{overflow-x:auto} #daily .grid-tbl{min-width:1100px} #trend svg{min-width:900px} #bars svg{min-width:560px} #types table,#under table{min-width:520px}'
-    + ' @media (max-width:640px){.wrap{padding:12px 10px} .tiles{grid-template-columns:1fr} .top{flex-direction:column} .actions{justify-content:flex-start} .top h1{font-size:19px} .tile .hero{font-size:30px}}';
+    + ' @media (max-width:640px){.status{display:block;white-space:normal;line-height:1.5} .status span{display:inline;white-space:normal} .wrap{padding:12px 10px} .tiles{grid-template-columns:1fr} .top{flex-direction:column} .actions{justify-content:flex-start} .top h1{font-size:19px} .tile .hero{font-size:30px}}';
   document.head.appendChild(st);
   setTimeout(() => window.dispatchEvent(new Event('pywebviewready')), 50);
 });
@@ -401,7 +401,7 @@ function renderAll() {
 // ---------- actions
 async function load() { const A = api(); if (!A) return; busy(true); try { M = await A.get_model(); renderAll(); } catch (e) { setStatus('불러오기 실패: ' + e, true); } busy(false); }
 async function refresh() { const A = api(); if (!A) { setStatus('앱 API 없음(브라우저 미리보기)', true); return; } busy(true); setStatus('8개 대학 페이지 조회 중…');
-  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus((fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '실시간 조회 완료 ' + mdhm(M.collected_at) + ' · 서울 서버가 8개 대학 페이지를 즉시 읽어옴 (사이트 부담을 줄이기 위해 1분에 한 번만 새로 읽음, 페이지 자체는 5~10분 단위 갱신)') + (M.live_error ? ' · ' + M.live_error : ''), fails.length > 0 || !!M.live_error); }
+  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus((fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '실시간 조회 완료 ' + mdhm(M.collected_at) + ' · 서울 서버가 8개 대학 페이지를 즉시 읽어옴 (부담을 줄이려 1분에 한 번만 새로 읽음, 페이지 자체는 5~10분 단위 갱신)') + (M.live_error ? ' · ' + M.live_error : ''), fails.length > 0 || !!M.live_error); }
   catch (e) { setStatus('갱신 실패: ' + e, true); } busy(false); }
 $('#btnRefresh').onclick = refresh;
 $('#btnXlsx').onclick = async () => { const A = api(); if (!A) return; try { const p = await A.save_xlsx(); setStatus('엑셀 저장: ' + p); } catch (e) { setStatus('엑셀 저장 실패: ' + e, true); } };
