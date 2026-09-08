@@ -135,7 +135,8 @@ footer a{color:var(--ink2)}
 <div class="modal" id="modal"><div class="box"><h3 id="mTitle"></h3><p id="mDesc"></p><input id="mVal" type="number" min="0" placeholder="지원자 수"><div class="btns"><button id="mCancel">취소</button><button class="primary" id="mOk">저장</button></div></div></div>
 <script>
 // 웹 버전: 자동 갱신은 GitHub 가 5분마다 저장한 model.json, '실시간 업데이트' 버튼은 서울 서버가 대행사 페이지를 즉시 읽는 /api/live
-const _getModel = () => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json());
+const _MODEL_URL = 'https://raw.githubusercontent.com/yohanclaude87-ui/susi-ratio/main/model.json';
+const _getModel = () => fetch(_MODEL_URL + '?t=' + Date.now(), {cache: 'no-store'}).then(r => { if (!r.ok) throw new Error('model ' + r.status); return r.json(); }).catch(() => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()));
 function _rank(M) {
   const ks = Object.keys(M.current);
   const byR = ks.filter(k => M.current[k].ratio != null).sort((a, b) => M.current[b].ratio - M.current[a].ratio || M.current[b].applicants - M.current[a].applicants);
@@ -164,7 +165,7 @@ async function _live() {
   _rank(M);
   M.collected_at = L.collected_at; M.ok_count = Object.values(M.current).filter(c => c.ok).length;
   if (pts.length) { pts.sort(); M.page_ts_range = [pts[0], pts[pts.length - 1]]; }
-  M.app_version = 'web · 실시간 조회 (서울 서버 경유)';
+  M.app_version = '웹 버전';
   return M;
 }
 window.pywebview = { api: {
@@ -176,7 +177,10 @@ window.pywebview = { api: {
 }};
 window.addEventListener('DOMContentLoaded', () => {
   ['btnXlsx','btnExport','btnImport'].forEach(id => { const b = document.getElementById(id); if (b) b.style.display = 'none'; });
-  const st = document.createElement('style'); st.textContent = '.grid-tbl td.edit{cursor:default} .grid-tbl td.edit:hover{outline:none}'; document.head.appendChild(st);
+  const st = document.createElement('style'); st.textContent = '.grid-tbl td.edit{cursor:default} .grid-tbl td.edit:hover{outline:none}'
+    + ' .status{flex-wrap:wrap;white-space:normal;word-break:keep-all} .status span{white-space:normal} .card,.tiles{max-width:100%} .card{overflow-x:auto} #daily .grid-tbl{min-width:1100px} #trend svg{min-width:900px} #bars svg{min-width:560px} #types table,#under table{min-width:520px}'
+    + ' @media (max-width:640px){.wrap{padding:12px 10px} .tiles{grid-template-columns:1fr} .top{flex-direction:column} .actions{justify-content:flex-start} .top h1{font-size:19px} .tile .hero{font-size:30px}}';
+  document.head.appendChild(st);
   setTimeout(() => window.dispatchEvent(new Event('pywebviewready')), 50);
 });
 </script>
@@ -343,9 +347,9 @@ function dailyTable(rows, yearLabel, quotas, editable) {
       const v = r.values[u.key], hl = u.highlight ? ' hl' : '', now = r.now ? ' now' : '';
       const ed = editable && !r.now ? ' edit' : '', man = v && v.src === 'manual' ? ' manual' : '';
       const attrs = ed ? ' data-edit="' + u.key + '|' + r.date + '"' : '';
-      const tipTxt = v ? (r.now ? '현재값' : (v.at ? mdhm(v.at) + ' 값' + (v.src === 'manual' ? ' (수기 입력)' : ' (자동 수집)') : yearLabel)) + '\n' + u.name + ' ' + fmt(v.applicants) + ' / ' + fmt(v.quota) : (ed ? '클릭해서 직접 입력' : '');
+      const tipTxt = v ? (r.now ? '현재값' : (v.at ? mdhm(v.at) + ' 값' + (v.src === 'manual' ? ' (수기 입력)' : ' (자동 수집)') : yearLabel)) + '\n' + u.name + ' ' + fmt(v.applicants) + ' / ' + fmt(v.quota) : '';
       if (v) h += '<td class="n' + hl + now + ed + man + '"' + attrs + ' data-tip="' + esc(tipTxt) + '">' + fmt(v.applicants) + '</td><td class="n' + hl + now + ed + man + '"' + attrs + '>' + f2(v.ratio) + '</td>';
-      else h += '<td class="n' + hl + ed + '"' + attrs + (ed ? ' data-tip="클릭해서 직접 입력"' : '') + '></td><td class="n' + hl + ed + '"' + attrs + '></td>';
+      else h += '<td class="n' + hl + ed + '"' + attrs + '' + '></td><td class="n' + hl + ed + '"' + attrs + '></td>';
     });
     h += '</tr>';
   });
@@ -353,7 +357,7 @@ function dailyTable(rows, yearLabel, quotas, editable) {
 }
 function renderDaily() {
   const quotas = {}; M.univs.forEach(u => quotas[u.key] = M.current[u.key].quota || u.expected_quota);
-  $('#dailyHint').textContent = '매일 ' + M.cutoff + ' 기준 · 마지막 날은 접수 종료 후 최종값 · 빈 칸은 클릭해서 직접 입력';
+  $('#dailyHint').textContent = '매일 ' + M.cutoff + ' 기준 · 마지막 날은 접수 종료 후 최종값';
   const nowRow = { label: '현재 (' + hhmm(M.collected_at) + ')', now: true, values: {} };
   KEYS.forEach(k => { const c = M.current[k]; if (c.applicants != null) nowRow.values[k] = { applicants: c.applicants, quota: c.quota, ratio: c.ratio }; });
   $('#daily').innerHTML = dailyTable([nowRow].concat(M.daily), M.year_label, quotas, true) + '<p class="cap">최종 (' + esc(M.prev.label) + ', 전년도)</p>' + dailyTable(M.prev.rows, M.prev.label, M.prev.quota, false);
@@ -383,7 +387,7 @@ function renderTypes() {
 
 function renderFooter() {
   const src = M.univs.map(u => '<a href="#" data-url="' + esc(u.url) + '">' + esc(u.name) + '(' + (u.agency === 'uway' ? '유웨이' : '진학') + ')</a>').join(' · ');
-  $('#foot').innerHTML = '출처: ' + src + '<br>경쟁률 = 지원자 ÷ 모집인원(각 페이지 총계 행, 소수 셋째 자리 반올림). 유웨이 5분·진학 10분 단위 갱신, 마지막 날 경쟁률 서비스는 17:00 전후 종료(광주여대 19:00). 작년 비교는 ' + esc(M.prev.label) + ' 일별 ' + esc(M.cutoff) + ' 기준 기록.' + (M.app_version ? '<br><span style="color:#B0B8C4">수시 경쟁률 현황 ' + esc(M.app_version) + (M.host ? ' · PC ' + esc(M.host) : '') + ' · 자동 갱신 5분(GitHub) · 실시간 업데이트 버튼은 서울 서버가 대행사 페이지를 즉시 조회</span>' : '');
+  $('#foot').innerHTML = '출처: ' + src + '<br>경쟁률 = 지원자 ÷ 모집인원(각 페이지 총계 행, 소수 셋째 자리 반올림). 유웨이 5분·진학 10분 단위 갱신, 마지막 날 경쟁률 서비스는 17:00 전후 종료(광주여대 19:00). 작년 비교는 ' + esc(M.prev.label) + ' 일별 ' + esc(M.cutoff) + ' 기준 기록.' + (M.app_version ? '<br><span style="color:#B0B8C4">수시 경쟁률 현황 ' + esc(M.app_version) + (M.host ? ' · PC ' + esc(M.host) : '') + ' · 5분마다 자동 수집 · 실시간 업데이트 버튼은 서울 서버가 대행사 페이지를 즉시 조회 · 이 페이지는 내부 참고용 비공식 자료이며 공식 경쟁률은 각 대학 입학처 발표 기준입니다</span>' : '');
   const ol = $('#openLog'); if (ol) ol.onclick = e => { e.preventDefault(); const A = api(); if (A) A.open_log(); };
 }
 
