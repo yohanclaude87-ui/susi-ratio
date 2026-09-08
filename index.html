@@ -112,7 +112,7 @@ footer a{color:var(--ink2)}
       <div class="sub" id="meta"></div>
     </div>
     <div class="actions">
-      <button class="primary" id="btnRefresh">새로고침</button>
+      <button class="primary" id="btnRefresh">실시간 업데이트</button>
       <label class="switch" id="autoSw"><i></i><span id="autoLabel">자동 갱신</span></label>
       <button id="btnXlsx">엑셀 저장</button>
       <button id="btnExport" title="이 PC의 수집 기록을 파일로 저장해 다른 PC로 보냅니다">기록 내보내기</button>
@@ -134,10 +134,42 @@ footer a{color:var(--ink2)}
 <div id="tip"></div>
 <div class="modal" id="modal"><div class="box"><h3 id="mTitle"></h3><p id="mDesc"></p><input id="mVal" type="number" min="0" placeholder="지원자 수"><div class="btns"><button id="mCancel">취소</button><button class="primary" id="mOk">저장</button></div></div></div>
 <script>
-// 웹 버전: pywebview 대신 model.json 을 읽음 (PC exe 가 5분마다 게시, PC 꺼지면 GitHub Actions 가 유웨이 5개교 갱신)
+// 웹 버전: 자동 갱신은 GitHub 가 5분마다 저장한 model.json, '실시간 업데이트' 버튼은 서울 서버가 대행사 페이지를 즉시 읽는 /api/live
+const _getModel = () => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json());
+function _rank(M) {
+  const ks = Object.keys(M.current);
+  const byR = ks.filter(k => M.current[k].ratio != null).sort((a, b) => M.current[b].ratio - M.current[a].ratio || M.current[b].applicants - M.current[a].applicants);
+  byR.forEach((k, i) => M.current[k].rank = i + 1);
+  const byA = ks.filter(k => M.current[k].applicants != null).sort((a, b) => M.current[b].applicants - M.current[a].applicants);
+  byA.forEach((k, i) => M.current[k].rank_applicants = i + 1);
+}
+async function _live() {
+  const M = await _getModel();
+  let L = null;
+  try { L = await fetch('api/live?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()); } catch (e) { L = null; }
+  if (!L || !L.univs) { M.live_error = '실시간 조회 실패 (저장된 값 표시)'; return M; }
+  const pts = [];
+  for (const k of Object.keys(L.univs)) {
+    const v = L.univs[k], c = M.current[k]; if (!c) continue;
+    if (!v.ok) { c.stale = true; c.error = v.error; continue; }
+    const diff = (v.applicants != null && c.applicants != null) ? v.applicants - c.applicants : 0;
+    Object.assign(c, {ok: true, stale: false, error: null, quota: v.quota, applicants: v.applicants, ratio: v.ratio, page_ts: v.page_ts, types: v.types, notes: v.notes, collected_at: L.collected_at, source: 'live'});
+    if (c.delta_cut) c.delta_cut.value += diff;
+    if (c.delta_1h != null) c.delta_1h += diff;
+    if (c.vs_prev && c.vs_prev.basis && c.vs_prev.basis.indexOf('현재') === 0) { c.vs_prev.this_applicants = v.applicants; c.vs_prev.diff = v.applicants - c.vs_prev.prev_applicants; c.vs_prev.pct = c.vs_prev.prev_applicants ? Math.round((v.applicants / c.vs_prev.prev_applicants - 1) * 1000) / 10 : null; }
+    const valid = (v.units || []).filter(x => x.quota != null && x.applicants != null), under = valid.filter(x => x.applicants < x.quota);
+    c.units_total = valid.length; c.units_under = under.length; c.units_under_list = under.sort((a, b) => (a.applicants / a.quota) - (b.applicants / b.quota)); c.units = v.units;
+    if (v.page_ts) pts.push(v.page_ts);
+  }
+  _rank(M);
+  M.collected_at = L.collected_at; M.ok_count = Object.values(M.current).filter(c => c.ok).length;
+  if (pts.length) { pts.sort(); M.page_ts_range = [pts[0], pts[pts.length - 1]]; }
+  M.app_version = 'web · 실시간 조회 (서울 서버 경유)';
+  return M;
+}
 window.pywebview = { api: {
-  get_model: () => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()),
-  refresh: () => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()),
+  get_model: _getModel,
+  refresh: _live,
   open_url: u => { window.open(u, '_blank'); return Promise.resolve(true); },
   log_js: () => Promise.resolve(true),
   open_log: () => Promise.resolve(true),
@@ -174,7 +206,7 @@ document.addEventListener('mousemove', e => {
 });
 
 function setStatus(msg, err) { $('#status').innerHTML = msg ? '<span class="' + (err ? 'err' : '') + '">' + esc(msg) + '</span>' : ''; }
-function busy(on) { $('#loading').classList.toggle('show', on); $('#btnRefresh').disabled = on; $('#btnRefresh').textContent = on ? '갱신 중…' : '새로고침'; }
+function busy(on) { $('#loading').classList.toggle('show', on); $('#btnRefresh').disabled = on; $('#btnRefresh').textContent = on ? '대행사 페이지 읽는 중…' : '실시간 업데이트'; }
 
 // ---------- header
 function renderHeader() {
@@ -351,7 +383,7 @@ function renderTypes() {
 
 function renderFooter() {
   const src = M.univs.map(u => '<a href="#" data-url="' + esc(u.url) + '">' + esc(u.name) + '(' + (u.agency === 'uway' ? '유웨이' : '진학') + ')</a>').join(' · ');
-  $('#foot').innerHTML = '출처: ' + src + '<br>경쟁률 = 지원자 ÷ 모집인원(각 페이지 총계 행, 소수 셋째 자리 반올림). 유웨이 5분·진학 10분 단위 갱신, 마지막 날 경쟁률 서비스는 17:00 전후 종료(광주여대 19:00). 작년 비교는 ' + esc(M.prev.label) + ' 일별 ' + esc(M.cutoff) + ' 기준 기록.' + (M.app_version ? '<br><span style="color:#B0B8C4">수시 경쟁률 현황 ' + esc(M.app_version) + (M.host ? ' · PC ' + esc(M.host) : '') + ' · PC 에서 5분마다 게시</span>' : '');
+  $('#foot').innerHTML = '출처: ' + src + '<br>경쟁률 = 지원자 ÷ 모집인원(각 페이지 총계 행, 소수 셋째 자리 반올림). 유웨이 5분·진학 10분 단위 갱신, 마지막 날 경쟁률 서비스는 17:00 전후 종료(광주여대 19:00). 작년 비교는 ' + esc(M.prev.label) + ' 일별 ' + esc(M.cutoff) + ' 기준 기록.' + (M.app_version ? '<br><span style="color:#B0B8C4">수시 경쟁률 현황 ' + esc(M.app_version) + (M.host ? ' · PC ' + esc(M.host) : '') + ' · 자동 갱신 5분(GitHub) · 실시간 업데이트 버튼은 서울 서버가 대행사 페이지를 즉시 조회</span>' : '');
   const ol = $('#openLog'); if (ol) ol.onclick = e => { e.preventDefault(); const A = api(); if (A) A.open_log(); };
 }
 
@@ -365,7 +397,7 @@ function renderAll() {
 // ---------- actions
 async function load() { const A = api(); if (!A) return; busy(true); try { M = await A.get_model(); renderAll(); } catch (e) { setStatus('불러오기 실패: ' + e, true); } busy(false); }
 async function refresh() { const A = api(); if (!A) { setStatus('앱 API 없음(브라우저 미리보기)', true); return; } busy(true); setStatus('8개 대학 페이지 조회 중…');
-  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus((fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '갱신 완료 ' + mdhm(M.collected_at)) + (M.published ? ' · ' + M.published : ''), fails.length > 0 || (M.published || '').indexOf('실패') >= 0); }
+  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus((fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '실시간 조회 완료 ' + mdhm(M.collected_at)) + (M.live_error ? ' · ' + M.live_error : ''), fails.length > 0 || !!M.live_error); }
   catch (e) { setStatus('갱신 실패: ' + e, true); } busy(false); }
 $('#btnRefresh').onclick = refresh;
 $('#btnXlsx').onclick = async () => { const A = api(); if (!A) return; try { const p = await A.save_xlsx(); setStatus('엑셀 저장: ' + p); } catch (e) { setStatus('엑셀 저장 실패: ' + e, true); } };
