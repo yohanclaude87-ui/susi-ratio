@@ -23,6 +23,7 @@ import os
 import sys
 import time
 import traceback
+import urllib.parse
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -167,7 +168,9 @@ def fetch_one(session, u, cfg, stamp):
     last_err = None
     for attempt in range(3):
         try:
-            r = session.get(u["url"], headers=headers, timeout=25)
+            proxy = os.environ.get("SUSI_PROXY")  # 예: https://.../api/proxy?url=
+            target = proxy + urllib.parse.quote(u["url"], safe="") if proxy else u["url"]
+            r = session.get(target, headers=headers, timeout=40)
             r.raise_for_status()
             header_cs = None
             ct = r.headers.get("Content-Type", "")
