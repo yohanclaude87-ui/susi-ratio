@@ -178,8 +178,8 @@ window.pywebview = { api: {
 window.addEventListener('DOMContentLoaded', () => {
   ['btnXlsx','btnExport','btnImport'].forEach(id => { const b = document.getElementById(id); if (b) b.style.display = 'none'; });
   const st = document.createElement('style'); st.textContent = '.grid-tbl td.edit{cursor:default} .grid-tbl td.edit:hover{outline:none}'
-    + ' .status{flex-wrap:wrap;white-space:normal;word-break:keep-all} .status span{white-space:normal} .card,.tiles{max-width:100%} .card{overflow-x:auto} #daily .grid-tbl{min-width:1100px} #trend svg{min-width:900px} #bars svg{min-width:560px} #types table,#under table{min-width:520px}'
-    + ' @media (max-width:640px){.status{display:block;white-space:normal;line-height:1.5} .status span{display:inline;white-space:normal} .wrap{padding:12px 10px} .tiles{grid-template-columns:1fr} .top{flex-direction:column} .actions{justify-content:flex-start} .top h1{font-size:19px} .tile .hero{font-size:30px}}';
+    + ' .status{flex-wrap:wrap;white-space:normal;word-break:normal;overflow-wrap:anywhere} .status span{white-space:normal} .card,.tiles{max-width:100%} .card{overflow-x:auto} #daily .grid-tbl{min-width:1100px} #trend svg{min-width:900px} #bars svg{min-width:560px} #types table,#under table{min-width:520px}'
+    + ' @media (max-width:640px){.status{display:block;white-space:normal;line-height:1.5;overflow-wrap:anywhere;word-break:normal} .status span{display:inline;white-space:normal} .wrap{padding:12px 10px} .tiles{grid-template-columns:1fr} .top{flex-direction:column} .actions{justify-content:flex-start} .top h1{font-size:19px} .tile .hero{font-size:30px}}';
   document.head.appendChild(st);
   setTimeout(() => window.dispatchEvent(new Event('pywebviewready')), 50);
 });
