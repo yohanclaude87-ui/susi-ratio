@@ -1,7 +1,7 @@
 name: 수집
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -20,6 +20,7 @@ jobs:
       - run: python web_collect.py
         env:
           PYTHONIOENCODING: utf-8
+          SUSI_PROXY: https://susi-ratio-yohan87.vercel.app/api/proxy?url=
       - name: 결과 저장
         run: |
           git config user.name "github-actions"
