@@ -136,7 +136,7 @@ footer a{color:var(--ink2)}
 <script>
 // 웹 버전: 자동 갱신은 GitHub 가 5분마다 저장한 model.json, '실시간 업데이트' 버튼은 서울 서버가 대행사 페이지를 즉시 읽는 /api/live
 const _MODEL_URL = 'https://raw.githubusercontent.com/yohanclaude87-ui/susi-ratio/main/model.json';
-const _getModel = () => fetch(_MODEL_URL + '?t=' + Date.now(), {cache: 'no-store'}).then(r => { if (!r.ok) throw new Error('model ' + r.status); return r.json(); }).catch(() => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()));
+const _getModel = () => fetch('api/model?t=' + Date.now(), {cache: 'no-store'}).then(r => { if (!r.ok) throw new Error('model ' + r.status); return r.json(); }).catch(() => fetch(_MODEL_URL + '?t=' + Date.now(), {cache: 'no-store'}).then(r => { if (!r.ok) throw new Error('raw ' + r.status); return r.json(); })).catch(() => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()));
 function _rank(M) {
   const ks = Object.keys(M.current);
   const byR = ks.filter(k => M.current[k].ratio != null).sort((a, b) => M.current[b].ratio - M.current[a].ratio || M.current[b].applicants - M.current[a].applicants);
