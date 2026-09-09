@@ -6,7 +6,7 @@
    "applicants": 3057,
    "ratio": 2.26,
    "ratio_shown": 2.26,
-   "page_ts": "2026-09-10 01:35",
+   "page_ts": "2026-09-10 01:40",
    "types": [
     {
      "group": null,
@@ -626,23 +626,23 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-10T01:35:25+09:00",
+   "collected_at": "2026-09-10T01:40:27+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOi9yVzhOckpmJSY6Jko3ZlRm"
   },
   "honam": {
    "ok": true,
    "quota": 1575,
-   "applicants": 3345,
-   "ratio": 2.12,
-   "ratio_shown": 2.12,
-   "page_ts": "2026-09-10 01:30",
+   "applicants": 3347,
+   "ratio": 2.13,
+   "ratio_shown": 2.13,
+   "page_ts": "2026-09-10 01:35",
    "types": [
     {
      "group": null,
      "name": "학생부교과(일반학생A전형)_면접중심",
      "quota": 512,
      "quota_text": "512",
-     "applicants": 932,
+     "applicants": 933,
      "ratio": 1.82
     },
     {
@@ -658,7 +658,7 @@
      "name": "학생부교과(일반고전형)_교과중심",
      "quota": 574,
      "quota_text": "574",
-     "applicants": 1188,
+     "applicants": 1189,
      "ratio": 2.07
     },
     {
@@ -697,8 +697,8 @@
      "unit": "물리치료학과",
      "quota": 18,
      "quota_text": "18",
-     "applicants": 71,
-     "ratio": 3.94
+     "applicants": 72,
+     "ratio": 4.0
     },
     {
      "type": "학생부교과(일반학생A전형)_면접중심",
@@ -940,8 +940,8 @@
      "unit": "사회복지·상담심리학부 (복지/상담) / 사회복지학전공 [전일제]",
      "quota": 30,
      "quota_text": "30",
-     "applicants": 86,
-     "ratio": 2.87
+     "applicants": 87,
+     "ratio": 2.9
     },
     {
      "type": "학생부교과(일반고전형)_교과중심",
@@ -1268,7 +1268,7 @@
      "ratio": 1.78
     }
    ],
-   "collected_at": "2026-09-10T01:35:25+09:00",
+   "collected_at": "2026-09-10T01:40:27+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio11690691.html"
   },
   "dongshin": {
@@ -1277,7 +1277,7 @@
    "applicants": 3010,
    "ratio": 2.1,
    "ratio_shown": 2.1,
-   "page_ts": "2026-09-10 01:35",
+   "page_ts": "2026-09-10 01:40",
    "types": [
     {
      "group": null,
@@ -2201,7 +2201,7 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-10T01:35:25+09:00",
+   "collected_at": "2026-09-10T01:40:27+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOlclfCZyV2FWSmYlJjomSjdmVGY="
   },
   "mokpo": {
@@ -3634,7 +3634,7 @@
      "ratio": 0.47
     }
    ],
-   "collected_at": "2026-09-10T01:35:25+09:00",
+   "collected_at": "2026-09-10T01:40:27+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10690271.html"
   },
   "suncheon": {
@@ -4842,7 +4842,7 @@
      "ratio": 1.75
     }
    ],
-   "collected_at": "2026-09-10T01:35:25+09:00",
+   "collected_at": "2026-09-10T01:40:27+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10990491.html"
   },
   "kwu": {
@@ -4851,7 +4851,7 @@
    "applicants": 1762,
    "ratio": 2.06,
    "ratio_shown": 2.06,
-   "page_ts": "2026-09-10 01:35",
+   "page_ts": "2026-09-10 01:40",
    "types": [
     {
      "group": null,
@@ -5311,23 +5311,23 @@
      "ratio": 2.33
     }
    ],
-   "collected_at": "2026-09-10T01:35:25+09:00",
+   "collected_at": "2026-09-10T01:40:27+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOk45SmYlJjomSjdmVGY="
   },
   "nambu": {
    "ok": true,
    "quota": 650,
-   "applicants": 1395,
+   "applicants": 1397,
    "ratio": 2.15,
    "ratio_shown": 2.15,
-   "page_ts": "2026-09-10 01:35",
+   "page_ts": "2026-09-10 01:40",
    "types": [
     {
      "group": null,
      "name": "일반학생",
      "quota": 566,
      "quota_text": "566",
-     "applicants": 1209,
+     "applicants": 1210,
      "ratio": 2.14
     },
     {
@@ -5335,8 +5335,8 @@
      "name": "지역인재",
      "quota": 29,
      "quota_text": "29",
-     "applicants": 86,
-     "ratio": 2.97
+     "applicants": 87,
+     "ratio": 3.0
     },
     {
      "group": null,
@@ -5513,8 +5513,8 @@
      "unit": "물리치료학과",
      "quota": 41,
      "quota_text": "41",
-     "applicants": 117,
-     "ratio": 2.85
+     "applicants": 118,
+     "ratio": 2.88
     },
     {
      "type": "일반학생",
@@ -5576,8 +5576,8 @@
      "unit": "물리치료학과",
      "quota": 9,
      "quota_text": "9",
-     "applicants": 28,
-     "ratio": 3.11
+     "applicants": 29,
+     "ratio": 3.22
     },
     {
      "type": "지역인재기회균형",
@@ -5715,7 +5715,7 @@
      "ratio": 0.1
     }
    ],
-   "collected_at": "2026-09-10T01:35:25+09:00",
+   "collected_at": "2026-09-10T01:40:27+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOkJNOFdKZiUmOiZKN2ZUZg=="
   },
   "songwon": {
@@ -5724,7 +5724,7 @@
    "applicants": 768,
    "ratio": 1.2,
    "ratio_shown": 1.2,
-   "page_ts": "2026-09-10 01:35",
+   "page_ts": "2026-09-10 01:40",
    "types": [
     {
      "group": null,
@@ -6052,9 +6052,9 @@
      "ratio": 0.0
     }
    ],
-   "collected_at": "2026-09-10T01:35:25+09:00",
+   "collected_at": "2026-09-10T01:40:27+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KV2FOcldhJkpmJSY6Jko3ZlRm"
   }
  },
- "collected_at": "2026-09-10T01:35:25+09:00"
+ "collected_at": "2026-09-10T01:40:27+09:00"
 }
