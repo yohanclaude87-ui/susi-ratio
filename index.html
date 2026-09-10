@@ -273,7 +273,7 @@ function renderBars() {
   if (!rows.length) { $('#bars').innerHTML = '<p class="small">데이터 없음</p>'; return; }
   const maxV = Math.max(...rows.map(r => Math.max(r.c.ratio, r.c.vs_prev ? r.c.vs_prev.prev_ratio : 0)));
   const step = niceStep(maxV * 1.1, 4), top = Math.ceil(maxV * 1.15 / step) * step || step;
-  const W = 660, rowH = 36, L = 76, R = 150, H = rows.length * rowH + 30;
+  const W = 660, rowH = 36, L = 76, R = 210, H = rows.length * rowH + 30;
   const x = v => L + v / top * (W - L - R);
   let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="display:block">';
   for (let v = 0; v <= top + 1e-9; v += step) s += '<line x1="' + x(v) + '" y1="4" x2="' + x(v) + '" y2="' + (H - 22) + '" class="grid"/><text x="' + x(v) + '" y="' + (H - 6) + '" text-anchor="middle">' + (Math.round(v * 100) / 100) + '</text>';
@@ -284,7 +284,7 @@ function renderBars() {
     s += '<rect x="' + L + '" y="' + (hl ? y + 2 : y + 5) + '" width="' + w.toFixed(1) + '" height="' + (hl ? 28 : 22) + '" rx="4" class="bar' + (hl ? ' hl' : '') + '"/>';
     if (r.c.vs_prev) s += '<circle cx="' + x(r.c.vs_prev.prev_ratio).toFixed(1) + '" cy="' + (y + 16) + '" r="5" class="prevdot"/>';
     const lx = Math.max(x(r.c.ratio), r.c.vs_prev ? x(r.c.vs_prev.prev_ratio) + 4 : 0) + 8;
-    s += '<text x="' + lx.toFixed(1) + '" y="' + (y + 20.5) + '" class="val">' + f2(r.c.ratio) + '<tspan> · ' + fmt(r.c.applicants) + '명</tspan></text>';
+    s += '<text x="' + lx.toFixed(1) + '" y="' + (y + 20.5) + '" class="val">' + f2(r.c.ratio) + '<tspan> · ' + fmt(r.c.applicants) + '명' + (r.c.vs_prev ? ' · 작년 ' + f2(r.c.vs_prev.prev_ratio) : '') + '</tspan></text>';
     s += '<rect x="0" y="' + y + '" width="' + W + '" height="' + rowH + '" class="hit" data-tip="' + esc(r.u.name + '\n경쟁률 ' + f2(r.c.ratio) + ' (지원 ' + fmt(r.c.applicants) + ' / 모집 ' + fmt(r.c.quota) + ')' + (r.c.vs_prev ? '\n작년 D+' + r.c.vs_prev.day_index + ' 17:00 경쟁률 ' + f2(r.c.vs_prev.prev_ratio) + ' (' + fmt(r.c.vs_prev.prev_applicants) + '명)' : '')) + '"/>';
   });
   $('#bars').innerHTML = s + '</svg>';
