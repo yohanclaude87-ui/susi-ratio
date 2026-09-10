@@ -122,8 +122,8 @@ footer a{color:var(--ink2)}
   <div class="status" id="status"></div>
   <section class="tiles" id="tiles"></section>
   <section class="two">
-    <div class="card"><h2>경쟁률 순위 <span class="hint">현재 경쟁률 · ○ 작년 같은 날(17:00)</span></h2>
-      <div class="legend"><span><i style="background:#6BBF2A"></i>광주대</span><span><i class="gray"></i>타 대학</span><span><i class="dot"></i>작년 D+N 17:00 경쟁률</span></div><div id="bars"></div></div>
+    <div class="card"><h2>경쟁률 순위 <span class="hint">현재 경쟁률 · ○ 작년 같은 일차 17:00 경쟁률</span></h2>
+      <div class="legend"><span><i style="background:#6BBF2A"></i>광주대</span><span><i class="gray"></i>타 대학</span><span><i class="dot"></i>작년 같은 일차 17:00 경쟁률</span></div><div id="bars"></div></div>
     <div class="card"><h2>미달 모집단위 현황 <span class="hint">현재 지원 &lt; 모집인 모집단위</span></h2><div id="under"></div></div>
   </section>
   <section class="card"><h2>경쟁률 추이 <span class="hint" id="trendHint"></span><span style="flex:1"></span><span class="tabs" style="margin:0"><button id="trendDay" class="on">일자별</button><button id="trendHour">시간대별</button></span></h2><div class="legend" id="trendLegend"></div><div id="trend"></div></section>
@@ -137,6 +137,10 @@ footer a{color:var(--ink2)}
 // 웹 버전: 자동 갱신은 GitHub 가 5분마다 저장한 model.json, '실시간 업데이트' 버튼은 서울 서버가 대행사 페이지를 즉시 읽는 /api/live
 const _MODEL_URL = 'https://raw.githubusercontent.com/yohanclaude87-ui/susi-ratio/main/model.json';
 const _getModel = () => fetch('api/model?t=' + Date.now(), {cache: 'no-store'}).then(r => { if (!r.ok) throw new Error('model ' + r.status); return r.json(); }).catch(() => fetch(_MODEL_URL + '?t=' + Date.now(), {cache: 'no-store'}).then(r => { if (!r.ok) throw new Error('raw ' + r.status); return r.json(); })).catch(() => fetch('model.json?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()));
+function _staleNote(M) {
+  const age = M.collected_at ? (Date.now() - new Date(M.collected_at)) / 60000 : null;
+  if (age != null && age > (M.interval_minutes || 5) * 3) M.stale_note = '자동 수집 지연: 마지막 수집 ' + Math.round(age) + '분 전';
+}
 function _rank(M) {
   const ks = Object.keys(M.current);
   const byR = ks.filter(k => M.current[k].ratio != null).sort((a, b) => M.current[b].ratio - M.current[a].ratio || M.current[b].applicants - M.current[a].applicants);
@@ -145,14 +149,14 @@ function _rank(M) {
   byA.forEach((k, i) => M.current[k].rank_applicants = i + 1);
 }
 async function _live() {
-  const M = await _getModel();
+  const M = await _getModel(); M._tried = Date.now(); _staleNote(M);
   let L = null;
   try { L = await fetch('api/live?t=' + Date.now(), {cache: 'no-store'}).then(r => r.json()); } catch (e) { L = null; }
   if (!L || !L.univs) { M.live_error = '실시간 조회 실패 (저장된 값 표시)'; return M; }
   const pts = [];
   for (const k of Object.keys(L.univs)) {
     const v = L.univs[k], c = M.current[k]; if (!c) continue;
-    if (!v.ok) { c.stale = true; c.error = v.error; continue; }
+    if (!v.ok) { c.ok = false; c.stale = true; c.error = v.error; continue; }
     const diff = (v.applicants != null && c.applicants != null) ? v.applicants - c.applicants : 0;
     Object.assign(c, {ok: true, stale: false, error: null, quota: v.quota, applicants: v.applicants, ratio: v.ratio, page_ts: v.page_ts, types: v.types, notes: v.notes, collected_at: L.collected_at, source: 'live'});
     if (c.delta_cut) c.delta_cut.value += diff;
@@ -169,7 +173,7 @@ async function _live() {
   return M;
 }
 window.pywebview = { api: {
-  get_model: _getModel,
+  get_model: () => _getModel().then(M => { _staleNote(M); return M; }),
   refresh: _live,
   open_url: u => { window.open(u, '_blank'); return Promise.resolve(true); },
   log_js: () => Promise.resolve(true),
@@ -180,7 +184,18 @@ window.addEventListener('DOMContentLoaded', () => {
   const st = document.createElement('style'); st.textContent = '.grid-tbl td.edit{cursor:default} .grid-tbl td.edit:hover{outline:none}'
     + ' .status{flex-wrap:wrap;white-space:normal;word-break:normal;overflow-wrap:anywhere} .status span{white-space:normal} .card,.tiles{max-width:100%} .card{overflow-x:auto} #daily .grid-tbl{min-width:1100px} #trend svg{min-width:900px} #bars svg{min-width:560px} #types table,#under table{min-width:520px}'
     + ' @media (max-width:640px){.status{display:block;white-space:normal;line-height:1.5;overflow-wrap:anywhere;word-break:normal;max-width:calc(100vw - 24px);padding-right:6px;box-sizing:border-box} html,body{overflow-x:hidden} .status span{display:inline;white-space:normal} .wrap{padding:12px 10px} .tiles{grid-template-columns:1fr} .top{flex-direction:column} .actions{justify-content:flex-start} .top h1{font-size:19px} .tile .hero{font-size:30px}}';
+  st.textContent += ' @media (max-width:640px){.card h2 .hint::after{content:" · 옆으로 밀어 보기 →"} #daily::before{content:"표가 넓습니다. 옆으로 밀어 보세요 →";display:block;font-size:11px;color:#8B95A3;margin-bottom:4px}}';
   document.head.appendChild(st);
+  // 휴대폰: 툴팁이 있는 요소를 탭하면 설명 표시, 다시 탭하면 숨김
+  document.addEventListener('click', e => {
+    const tip = document.getElementById('tip'); if (!tip) return;
+    const t = e.target.closest('[data-tip]');
+    if (!t) { tip.style.display = 'none'; return; }
+    if (tip.style.display === 'block' && tip.dataset.for === t.getAttribute('data-tip')) { tip.style.display = 'none'; return; }
+    tip.textContent = t.getAttribute('data-tip'); tip.dataset.for = t.getAttribute('data-tip'); tip.style.display = 'block';
+    tip.style.left = Math.max(8, Math.min(e.clientX + 8, window.innerWidth - tip.offsetWidth - 8)) + 'px';
+    tip.style.top = Math.min(e.clientY + 12, window.innerHeight - tip.offsetHeight - 8) + 'px';
+  }, true);
   setTimeout(() => window.dispatchEvent(new Event('pywebviewready')), 50);
 });
 </script>
@@ -220,11 +235,11 @@ function renderHeader() {
   $('#title').textContent = M.title;
   $('#meta').innerHTML = [
     '<span>' + esc(M.subtitle) + '</span>',
-    '<span class="chip blue">' + (di ? 'D+' + di + '일차' : '접수기간 외') + '</span>',
+    '<span class="chip blue">' + (di ? '접수 ' + di + '일차 (D+' + di + ')' : '접수기간 외') + '</span>',
     '<span class="chip">수집 ' + esc(mdhm(M.collected_at)) + '</span>',
     pts ? '<span class="chip">페이지 기준 ' + esc(pts[0].slice(5)) + (pts[1] !== pts[0] ? ' ~ ' + esc(pts[1].slice(11)) : '') + '</span>' : '',
     '<span class="chip ' + (okN === KEYS.length ? 'ok' : 'bad') + '">' + (okN === KEYS.length ? '8개교 정상' : '정상 ' + okN + '/' + KEYS.length + '개교') + '</span>',
-    '<span id="countdown" class="chip"></span>'
+    '<span id="countdown" class="chip"></span>' + (M.stale_note ? '<span class="chip bad">' + esc(M.stale_note) + '</span>' : '')
   ].join('');
   const end = new Date(M.period.end_dt);
   const tick = () => { const el = $('#countdown'); if (!el) return; const ms = end - Date.now();
@@ -241,12 +256,12 @@ function renderTiles() {
     if (c.applicants == null) return '<div class="tile' + hl + '"><div class="nm">' + esc(u.name) + '</div><div class="err">수집 실패 · ' + esc(c.error || '') + '</div><div class="foot"><a href="#" data-url="' + esc(u.url) + '">원문 페이지</a></div></div>';
     const vp = c.vs_prev, dc = c.delta_cut;
     let vpHtml = '';
-    if (vp) { const up = vp.diff >= 0; vpHtml = '<div class="line" data-tip="' + esc('작년 ' + M.prev.label + ' D+' + vp.day_index + ' ' + M.cutoff + ' 기준 ' + fmt(vp.prev_applicants) + '명 → 올해 ' + vp.basis + ' ' + fmt(vp.this_applicants) + '명') + '">작년 D+' + vp.day_index + ' 대비 <span class="pill ' + (up ? 'up' : 'down') + '">' + (up ? '▲' : '▼') + ' ' + sgn(vp.diff) + (vp.pct != null ? ' (' + (vp.pct >= 0 ? '+' : '') + vp.pct.toFixed(1) + '%)' : '') + '</span>' + (vp.basis.indexOf('현재') === 0 ? '<span class="pill gray">현재값</span>' : '') + '</div>'; }
+    if (vp) { const up = vp.diff >= 0; vpHtml = '<div class="line" data-tip="' + esc('작년 ' + M.prev.label + ' D+' + vp.day_index + ' ' + M.cutoff + ' 기준 ' + fmt(vp.prev_applicants) + '명 → 올해 ' + vp.basis + ' ' + fmt(vp.this_applicants) + '명') + '">작년 같은 일차(D+' + vp.day_index + ', 17:00) 대비 <span class="pill ' + (up ? 'up' : 'down') + '">' + (up ? '▲' : '▼') + ' ' + sgn(vp.diff) + (vp.pct != null ? ' (' + (vp.pct >= 0 ? '+' : '') + vp.pct.toFixed(1) + '%)' : '') + '</span>' + (vp.basis.indexOf('현재') === 0 ? '<span class="pill gray">현재값</span>' : '') + '</div>'; }
     const stale = c.stale ? '<span class="pill down" data-tip="' + esc(c.error || '') + '">이전값</span>' : (c.notes && c.notes.length ? '<span class="pill gray" data-tip="' + esc(c.notes.join('\n')) + '">주의</span>' : '');
     return '<div class="tile' + hl + '"><div class="nm"><span class="rank">' + (c.rank || '-') + '위</span>' + esc(u.name) + stale + '</div>' +
       '<div class="hero">' + f2(c.ratio) + '<small>: 1</small></div>' +
       '<div class="line">모집 ' + fmt(c.quota) + ' / 지원 <b>' + fmt(c.applicants) + '</b>' + (c.rank_applicants ? ' <span class="small">(지원자 ' + c.rank_applicants + '위)</span>' : '') + '</div>' +
-      vpHtml + (dc ? '<div class="line">' + esc(dc.since) + ' 이후 <b>' + sgn(dc.value) + '</b>' + (c.delta_1h != null ? ' · 최근 1h <b>' + sgn(c.delta_1h) + '</b>' : '') + '</div>' : '') +
+      vpHtml + (dc ? '<div class="line">' + esc(dc.since) + ' 이후 <b>' + sgn(dc.value) + '</b>' + (c.delta_1h != null ? ' · 최근 1시간 <b>' + sgn(c.delta_1h) + '</b>' : '') + '</div>' : '') +
       '<div class="foot"><span>페이지 기준 ' + esc((c.page_ts || '').slice(5)) + '</span><a href="#" data-url="' + esc(u.url) + '">원문</a></div></div>';
   }).join('');
 }
@@ -357,7 +372,7 @@ function dailyTable(rows, yearLabel, quotas, editable) {
 }
 function renderDaily() {
   const quotas = {}; M.univs.forEach(u => quotas[u.key] = M.current[u.key].quota || u.expected_quota);
-  $('#dailyHint').textContent = '매일 ' + M.cutoff + ' 기준 · 마지막 날은 접수 종료 후 최종값';
+  $('#dailyHint').textContent = '매일 ' + M.cutoff + ' 대행사 페이지 기준값 · 마지막 날은 경쟁률 서비스 종료(17:00) 시점 값이며 공식 최종 경쟁률은 각 입학처 발표 기준';
   const nowRow = { label: '현재 (' + hhmm(M.collected_at) + ')', now: true, values: {} };
   KEYS.forEach(k => { const c = M.current[k]; if (c.applicants != null) nowRow.values[k] = { applicants: c.applicants, quota: c.quota, ratio: c.ratio }; });
   $('#daily').innerHTML = dailyTable([nowRow].concat(M.daily), M.year_label, quotas, true) + '<p class="cap">최종 (' + esc(M.prev.label) + ', 전년도)</p>' + dailyTable(M.prev.rows, M.prev.label, M.prev.quota, false);
@@ -401,7 +416,7 @@ function renderAll() {
 // ---------- actions
 async function load() { const A = api(); if (!A) return; busy(true); try { M = await A.get_model(); renderAll(); } catch (e) { setStatus('불러오기 실패: ' + e, true); } busy(false); }
 async function refresh() { const A = api(); if (!A) { setStatus('앱 API 없음(브라우저 미리보기)', true); return; } busy(true); setStatus('8개 대학 페이지 조회 중…');
-  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus((fails.length ? '수집 실패: ' + fails.join(', ') + ' (이전 값 유지)' : '실시간 조회 완료 ' + mdhm(M.collected_at) + (window.innerWidth > 700 ? ' · 서울 서버가 8개 대학 페이지를 즉시 읽어옴 (부담을 줄이려 1분에 한 번만 새로 읽음, 페이지 자체는 5~10분 단위 갱신)' : ' · 1분에 한 번 새로 읽음')) + (M.live_error ? ' · ' + M.live_error : ''), fails.length > 0 || !!M.live_error); }
+  try { M = await A.refresh(); renderAll(); const fails = M.univs.filter(u => !M.current[u.key].ok).map(u => u.name); setStatus(M.live_error ? M.live_error + ' · 5분 뒤 다시 시도합니다' : (fails.length ? '실시간 조회 실패: ' + fails.join(', ') + ' (이전 값 표시) · 나머지는 ' + mdhm(M.collected_at) + ' 기준' : '실시간 조회 완료 ' + mdhm(M.collected_at) + (window.innerWidth > 700 ? ' · 서울 서버가 8개 대학 페이지를 즉시 읽어옴 (부담을 줄이려 1분에 한 번만 새로 읽음, 페이지 자체는 5~10분 단위 갱신)' : ' · 1분에 한 번 새로 읽음')), fails.length > 0 || !!M.live_error); }
   catch (e) { setStatus('갱신 실패: ' + e, true); } busy(false); }
 $('#btnRefresh').onclick = refresh;
 $('#btnXlsx').onclick = async () => { const A = api(); if (!A) return; try { const p = await A.save_xlsx(); setStatus('엑셀 저장: ' + p); } catch (e) { setStatus('엑셀 저장 실패: ' + e, true); } };
@@ -414,7 +429,7 @@ sw.onclick = () => { auto = !auto; try { localStorage.setItem('susi_auto', auto 
 setInterval(() => {
   if (!auto || !M || $('#btnRefresh').disabled) return;
   const now = new Date(), last = M.collected_at ? new Date(M.collected_at) : null;
-  const due = !last || (now - last) >= M.interval_minutes * 60e3;
+  const due = (!last || (now - last) >= M.interval_minutes * 60e3) && (!M._tried || (now - M._tried) >= M.interval_minutes * 60e3);
   const [ch, cm] = M.cutoff.split(':').map(Number);
   const atCut = now.getHours() === ch && now.getMinutes() === cm && (!last || (now - last) > 50e3);
   if (due || atCut) refresh();
