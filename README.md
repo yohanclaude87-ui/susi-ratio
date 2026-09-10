@@ -5,4 +5,4 @@ GitHub Actions 가 10분마다 8개 대학 경쟁률 페이지를 읽어 `model.
 
 
 - `site` 브랜치: Vercel 배포용 코드 전용 브랜치 (데이터 커밋은 main 에만 쌓임)
-<!-- deploy-try 2026-09-10 11:55 -->
+<!-- deploy-try 2026-09-10 11:58 prod -->
