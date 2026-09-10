@@ -6,7 +6,7 @@
    "applicants": 4907,
    "ratio": 3.63,
    "ratio_shown": 3.63,
-   "page_ts": "2026-09-11 02:45",
+   "page_ts": "2026-09-11 02:50",
    "types": [
     {
      "group": null,
@@ -626,23 +626,23 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-11T02:45:24+09:00",
+   "collected_at": "2026-09-11T02:50:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOi9yVzhOckpmJSY6Jko3ZlRm"
   },
   "honam": {
    "ok": true,
    "quota": 1575,
-   "applicants": 5364,
+   "applicants": 5367,
    "ratio": 3.41,
    "ratio_shown": 3.41,
-   "page_ts": "2026-09-11 02:40",
+   "page_ts": "2026-09-11 02:45",
    "types": [
     {
      "group": null,
      "name": "학생부교과(일반학생A전형)_면접중심",
      "quota": 512,
      "quota_text": "512",
-     "applicants": 1467,
+     "applicants": 1468,
      "ratio": 2.87
     },
     {
@@ -658,7 +658,7 @@
      "name": "학생부교과(일반고전형)_교과중심",
      "quota": 574,
      "quota_text": "574",
-     "applicants": 2001,
+     "applicants": 2003,
      "ratio": 3.49
     },
     {
@@ -742,8 +742,8 @@
      "unit": "서비스·경영학부 (경영/관광/호텔/항공) / 경영학전공 [전일제]",
      "quota": 40,
      "quota_text": "40",
-     "applicants": 63,
-     "ratio": 1.58
+     "applicants": 64,
+     "ratio": 1.6
     },
     {
      "type": "학생부교과(일반학생A전형)_면접중심",
@@ -904,8 +904,8 @@
      "unit": "임상병리학과",
      "quota": 16,
      "quota_text": "16",
-     "applicants": 104,
-     "ratio": 6.5
+     "applicants": 105,
+     "ratio": 6.56
     },
     {
      "type": "학생부교과(일반고전형)_교과중심",
@@ -913,8 +913,8 @@
      "unit": "응급구조학과",
      "quota": 18,
      "quota_text": "18",
-     "applicants": 74,
-     "ratio": 4.11
+     "applicants": 75,
+     "ratio": 4.17
     },
     {
      "type": "학생부교과(일반고전형)_교과중심",
@@ -1268,23 +1268,23 @@
      "ratio": 2.39
     }
    ],
-   "collected_at": "2026-09-11T02:45:24+09:00",
+   "collected_at": "2026-09-11T02:50:25+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio11690691.html"
   },
   "dongshin": {
    "ok": true,
    "quota": 1431,
-   "applicants": 4696,
+   "applicants": 4697,
    "ratio": 3.28,
    "ratio_shown": 3.28,
-   "page_ts": "2026-09-11 02:45",
+   "page_ts": "2026-09-11 02:50",
    "types": [
     {
      "group": null,
      "name": "학생부교과(일반전형)",
      "quota": 753,
      "quota_text": "753",
-     "applicants": 2907,
+     "applicants": 2908,
      "ratio": 3.86
     },
     {
@@ -1601,8 +1601,8 @@
      "unit": "경찰행정학과",
      "quota": 24,
      "quota_text": "24",
-     "applicants": 106,
-     "ratio": 4.42
+     "applicants": 107,
+     "ratio": 4.46
     },
     {
      "type": "학생부교과(일반전형)",
@@ -2173,7 +2173,7 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-11T02:45:24+09:00",
+   "collected_at": "2026-09-11T02:50:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOlclfCZyV2FWSmYlJjomSjdmVGY="
   },
   "mokpo": {
@@ -3606,7 +3606,7 @@
      "ratio": 0.74
     }
    ],
-   "collected_at": "2026-09-11T02:45:24+09:00",
+   "collected_at": "2026-09-11T02:50:25+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10690271.html"
   },
   "suncheon": {
@@ -4814,31 +4814,31 @@
      "ratio": 2.25
     }
    ],
-   "collected_at": "2026-09-11T02:45:24+09:00",
+   "collected_at": "2026-09-11T02:50:25+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10990491.html"
   },
   "kwu": {
    "ok": true,
    "quota": 855,
-   "applicants": 2767,
+   "applicants": 2769,
    "ratio": 3.24,
    "ratio_shown": 3.24,
-   "page_ts": "2026-09-11 02:45",
+   "page_ts": "2026-09-11 02:50",
    "types": [
     {
      "group": null,
      "name": "일반학생전형Ⅰ",
      "quota": 177,
      "quota_text": "177",
-     "applicants": 645,
-     "ratio": 3.64
+     "applicants": 646,
+     "ratio": 3.65
     },
     {
      "group": null,
      "name": "일반학생전형Ⅱ",
      "quota": 471,
      "quota_text": "471",
-     "applicants": 1699,
+     "applicants": 1700,
      "ratio": 3.61
     },
     {
@@ -4911,8 +4911,8 @@
      "unit": "간호학과 ▲ [교직] [한국간호평가원 3주기 간호교육인증 5년]",
      "quota": 74,
      "quota_text": "74",
-     "applicants": 299,
-     "ratio": 4.04
+     "applicants": 300,
+     "ratio": 4.05
     },
     {
      "type": "일반학생전형Ⅰ",
@@ -5064,8 +5064,8 @@
      "unit": "간호학과 ▲ [교직] [한국간호평가원 3주기 간호교육인증 5년]",
      "quota": 108,
      "quota_text": "108",
-     "applicants": 638,
-     "ratio": 5.91
+     "applicants": 639,
+     "ratio": 5.92
     },
     {
      "type": "일반학생전형Ⅱ",
@@ -5283,23 +5283,23 @@
      "ratio": 3.0
     }
    ],
-   "collected_at": "2026-09-11T02:45:24+09:00",
+   "collected_at": "2026-09-11T02:50:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOk45SmYlJjomSjdmVGY="
   },
   "nambu": {
    "ok": true,
    "quota": 650,
-   "applicants": 2228,
+   "applicants": 2230,
    "ratio": 3.43,
    "ratio_shown": 3.43,
-   "page_ts": "2026-09-11 02:45",
+   "page_ts": "2026-09-11 02:50",
    "types": [
     {
      "group": null,
      "name": "일반학생",
      "quota": 566,
      "quota_text": "566",
-     "applicants": 1956,
+     "applicants": 1958,
      "ratio": 3.46
     },
     {
@@ -5467,8 +5467,8 @@
      "unit": "간호학과 [교직] [간호교육인증평가 인증학과]",
      "quota": 188,
      "quota_text": "188",
-     "applicants": 845,
-     "ratio": 4.49
+     "applicants": 846,
+     "ratio": 4.5
     },
     {
      "type": "일반학생",
@@ -5521,8 +5521,8 @@
      "unit": "스포츠레저학과",
      "quota": 35,
      "quota_text": "35",
-     "applicants": 54,
-     "ratio": 1.54
+     "applicants": 55,
+     "ratio": 1.57
     },
     {
      "type": "일반학생",
@@ -5687,7 +5687,7 @@
      "ratio": 0.1
     }
    ],
-   "collected_at": "2026-09-11T02:45:24+09:00",
+   "collected_at": "2026-09-11T02:50:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOkJNOFdKZiUmOiZKN2ZUZg=="
   },
   "songwon": {
@@ -5696,7 +5696,7 @@
    "applicants": 1224,
    "ratio": 1.92,
    "ratio_shown": 1.92,
-   "page_ts": "2026-09-11 02:45",
+   "page_ts": "2026-09-11 02:50",
    "types": [
     {
      "group": null,
@@ -6024,9 +6024,9 @@
      "ratio": 0.0
     }
    ],
-   "collected_at": "2026-09-11T02:45:24+09:00",
+   "collected_at": "2026-09-11T02:50:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KV2FOcldhJkpmJSY6Jko3ZlRm"
   }
  },
- "collected_at": "2026-09-11T02:45:24+09:00"
+ "collected_at": "2026-09-11T02:50:25+09:00"
 }
