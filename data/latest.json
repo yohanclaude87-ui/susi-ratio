@@ -6,7 +6,7 @@
    "applicants": 4932,
    "ratio": 3.65,
    "ratio_shown": 3.65,
-   "page_ts": "2026-09-11 04:50",
+   "page_ts": "2026-09-11 04:55",
    "types": [
     {
      "group": null,
@@ -626,7 +626,7 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-11T04:50:30+09:00",
+   "collected_at": "2026-09-11T04:55:23+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOi9yVzhOckpmJSY6Jko3ZlRm"
   },
   "honam": {
@@ -635,7 +635,7 @@
    "applicants": 5387,
    "ratio": 3.42,
    "ratio_shown": 3.42,
-   "page_ts": "2026-09-11 04:45",
+   "page_ts": "2026-09-11 04:50",
    "types": [
     {
      "group": null,
@@ -1268,16 +1268,16 @@
      "ratio": 2.39
     }
    ],
-   "collected_at": "2026-09-11T04:50:30+09:00",
+   "collected_at": "2026-09-11T04:55:23+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio11690691.html"
   },
   "dongshin": {
    "ok": true,
    "quota": 1431,
-   "applicants": 4719,
+   "applicants": 4720,
    "ratio": 3.3,
    "ratio_shown": 3.3,
-   "page_ts": "2026-09-11 04:50",
+   "page_ts": "2026-09-11 04:55",
    "types": [
     {
      "group": null,
@@ -1356,8 +1356,8 @@
      "name": "기초생활수급자 및 차상위계층전형(정원외)",
      "quota": 63,
      "quota_text": "63",
-     "applicants": 206,
-     "ratio": 3.27
+     "applicants": 207,
+     "ratio": 3.29
     },
     {
      "group": null,
@@ -1988,8 +1988,8 @@
      "unit": "한의예과 [교육평가원인증]",
      "quota": 2,
      "quota_text": "2",
-     "applicants": 45,
-     "ratio": 22.5
+     "applicants": 46,
+     "ratio": 23.0
     },
     {
      "type": "기초생활수급자 및 차상위계층전형(정원외)",
@@ -2173,16 +2173,16 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-11T04:50:30+09:00",
+   "collected_at": "2026-09-11T04:55:23+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOlclfCZyV2FWSmYlJjomSjdmVGY="
   },
   "mokpo": {
    "ok": true,
    "quota": 1782,
-   "applicants": 7879,
+   "applicants": 7880,
    "ratio": 4.42,
    "ratio_shown": 4.42,
-   "page_ts": "2026-09-11 04:40",
+   "page_ts": "2026-09-11 04:50",
    "types": [
     {
      "group": "학생부교과전형",
@@ -2253,8 +2253,8 @@
      "name": "미래인재",
      "quota": 79,
      "quota_text": "79",
-     "applicants": 31,
-     "ratio": 0.39
+     "applicants": 32,
+     "ratio": 0.41
     },
     {
      "group": "학생부종합전형",
@@ -3504,8 +3504,8 @@
      "unit": "스마트조선해양·에너지학부 (담양) (2년제) / 조선해양AI자동화 신재생에너지전기 산업안전",
      "quota": 40,
      "quota_text": "40",
-     "applicants": 7,
-     "ratio": 0.18
+     "applicants": 8,
+     "ratio": 0.2
     },
     {
      "type": "미래인재",
@@ -3606,16 +3606,16 @@
      "ratio": 0.74
     }
    ],
-   "collected_at": "2026-09-11T04:50:30+09:00",
+   "collected_at": "2026-09-11T04:55:23+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10690271.html"
   },
   "suncheon": {
    "ok": true,
    "quota": 1649,
-   "applicants": 7168,
+   "applicants": 7170,
    "ratio": 4.35,
    "ratio_shown": 4.35,
-   "page_ts": "2026-09-11 04:40",
+   "page_ts": "2026-09-11 04:50",
    "types": [
     {
      "group": "학생부교과",
@@ -3638,7 +3638,7 @@
      "name": "교과일반전형",
      "quota": 423,
      "quota_text": "423",
-     "applicants": 2354,
+     "applicants": 2355,
      "ratio": 5.57
     },
     {
@@ -3726,8 +3726,8 @@
      "name": "실기전형",
      "quota": 53,
      "quota_text": "53",
-     "applicants": 353,
-     "ratio": 6.66
+     "applicants": 354,
+     "ratio": 6.68
     },
     {
      "group": "실기/실적",
@@ -4027,8 +4027,8 @@
      "unit": "공학분야 ( 토목공학전공 ) ( 환경공학전공 ) ( 기계우주항공공학전공 ) ( 첨단신소재공학전공 ) ( 화학공학전공 ) ( 전기공학전공 ) ( 전자공학전공 ) ( 인공지능공학전공 ) ( 컴퓨터공학전공 ) ( 화학전공 ) ( 에너지응용공학전공 )",
      "quota": 98,
      "quota_text": "98",
-     "applicants": 463,
-     "ratio": 4.72
+     "applicants": 464,
+     "ratio": 4.73
     },
     {
      "type": "교과일반전형",
@@ -4756,8 +4756,8 @@
      "unit": "예체능분야 / 문예창작학전공",
      "quota": 9,
      "quota_text": "9",
-     "applicants": 90,
-     "ratio": 10.0
+     "applicants": 91,
+     "ratio": 10.11
     },
     {
      "type": "실기전형",
@@ -4814,7 +4814,7 @@
      "ratio": 2.25
     }
    ],
-   "collected_at": "2026-09-11T04:50:30+09:00",
+   "collected_at": "2026-09-11T04:55:23+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10990491.html"
   },
   "kwu": {
@@ -4823,7 +4823,7 @@
    "applicants": 2778,
    "ratio": 3.25,
    "ratio_shown": 3.25,
-   "page_ts": "2026-09-11 04:50",
+   "page_ts": "2026-09-11 04:55",
    "types": [
     {
      "group": null,
@@ -5283,23 +5283,23 @@
      "ratio": 3.0
     }
    ],
-   "collected_at": "2026-09-11T04:50:30+09:00",
+   "collected_at": "2026-09-11T04:55:23+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOk45SmYlJjomSjdmVGY="
   },
   "nambu": {
    "ok": true,
    "quota": 650,
-   "applicants": 2237,
+   "applicants": 2238,
    "ratio": 3.44,
    "ratio_shown": 3.44,
-   "page_ts": "2026-09-11 04:50",
+   "page_ts": "2026-09-11 04:55",
    "types": [
     {
      "group": null,
      "name": "일반학생",
      "quota": 566,
      "quota_text": "566",
-     "applicants": 1965,
+     "applicants": 1966,
      "ratio": 3.47
     },
     {
@@ -5512,8 +5512,8 @@
      "unit": "AI전기공학과 [전일제]",
      "quota": 15,
      "quota_text": "15",
-     "applicants": 23,
-     "ratio": 1.53
+     "applicants": 24,
+     "ratio": 1.6
     },
     {
      "type": "일반학생",
@@ -5687,7 +5687,7 @@
      "ratio": 0.1
     }
    ],
-   "collected_at": "2026-09-11T04:50:30+09:00",
+   "collected_at": "2026-09-11T04:55:23+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOkJNOFdKZiUmOiZKN2ZUZg=="
   },
   "songwon": {
@@ -5696,7 +5696,7 @@
    "applicants": 1226,
    "ratio": 1.92,
    "ratio_shown": 1.92,
-   "page_ts": "2026-09-11 04:50",
+   "page_ts": "2026-09-11 04:55",
    "types": [
     {
      "group": null,
@@ -6024,9 +6024,9 @@
      "ratio": 0.0
     }
    ],
-   "collected_at": "2026-09-11T04:50:30+09:00",
+   "collected_at": "2026-09-11T04:55:23+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KV2FOcldhJkpmJSY6Jko3ZlRm"
   }
  },
- "collected_at": "2026-09-11T04:50:30+09:00"
+ "collected_at": "2026-09-11T04:55:23+09:00"
 }
