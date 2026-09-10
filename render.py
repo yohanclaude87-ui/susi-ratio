@@ -53,7 +53,8 @@ def build_model(cfg, history, latest):
         for k in keys:
             d = rec["univs"].get(k)
             if d and d.get("ok") and d.get("applicants") is not None:
-                series[k].append({"t": t, "a": d["applicants"], "q": d.get("quota"), "src": d.get("source", "auto")})
+                series[k].append({"t": t, "a": d["applicants"], "q": d.get("quota"), "src": d.get("source", "auto"),
+                                  "pts": d.get("page_ts")})
     for k in keys:
         series[k].sort(key=lambda e: e["t"])
 
@@ -68,9 +69,16 @@ def build_model(cfg, history, latest):
         day = [e for e in entries if e["t"].date() == d]
         if not day:
             return None
-        if take_last:
-            return day[-1]
         cut = datetime.combine(d, cutoff_t).replace(tzinfo=KST)
+        # 1순위: 대행사 페이지 기준시각(page_ts)이 컷오프 이하인 것 중 가장 늦은 것
+        #        (진학은 10분 단위 갱신이라 17:00 페이지값은 17:00~17:05 수집분에 실림)
+        cut_s = cut.strftime("%Y-%m-%d %H:%M")
+        window = [e for e in day if cut - timedelta(minutes=60) <= e["t"] <= cut + timedelta(minutes=60)]
+        with_pts = [e for e in window if e.get("pts") and e["pts"][:16] <= cut_s and e["pts"][:10] == d.isoformat()]
+        if with_pts:
+            best = max(with_pts, key=lambda e: (e["pts"][:16], e["t"]))
+            if best["pts"][:16] >= (cut - timedelta(minutes=20)).strftime("%Y-%m-%d %H:%M"):
+                return best
         before = [e for e in day if e["t"] <= cut + timedelta(minutes=5)]
         if before and before[-1]["t"] >= cut - timedelta(minutes=60):
             return before[-1]
@@ -82,9 +90,9 @@ def build_model(cfg, history, latest):
     # --- 일별 17:00 기준표 (올해)
     daily = []
     for i, d in enumerate(dates):
-        take_last = d == end and now > end_dt
+        take_last = False  # 대행사 경쟁률 서비스는 마지막 날 17:00 전후 종료 → 마지막 날도 17:00 기준값 사용
         row = {"date": d.isoformat(), "label": day_label(d), "day_index": i + 1,
-               "is_final": take_last, "values": {}}
+               "is_final": False, "values": {}}
         for k in keys:
             e = pick(series[k], d, take_last)
             if e:
