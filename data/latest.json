@@ -3,17 +3,17 @@
   "gwangju": {
    "ok": true,
    "quota": 1351,
-   "applicants": 4938,
+   "applicants": 4939,
    "ratio": 3.66,
    "ratio_shown": 3.66,
-   "page_ts": "2026-09-11 06:15",
+   "page_ts": "2026-09-11 06:20",
    "types": [
     {
      "group": null,
      "name": "학생부교과(일반학생)",
      "quota": 917,
      "quota_text": "917",
-     "applicants": 3734,
+     "applicants": 3735,
      "ratio": 4.07
     },
     {
@@ -84,8 +84,8 @@
      "unit": "작업치료학과 [WFOT교육인증]",
      "quota": 36,
      "quota_text": "36",
-     "applicants": 139,
-     "ratio": 3.86
+     "applicants": 140,
+     "ratio": 3.89
     },
     {
      "type": "학생부교과(일반학생)",
@@ -626,7 +626,7 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-11T06:15:29+09:00",
+   "collected_at": "2026-09-11T06:20:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOi9yVzhOckpmJSY6Jko3ZlRm"
   },
   "honam": {
@@ -635,7 +635,7 @@
    "applicants": 5389,
    "ratio": 3.42,
    "ratio_shown": 3.42,
-   "page_ts": "2026-09-11 06:10",
+   "page_ts": "2026-09-11 06:15",
    "types": [
     {
      "group": null,
@@ -1268,23 +1268,23 @@
      "ratio": 2.39
     }
    ],
-   "collected_at": "2026-09-11T06:15:29+09:00",
+   "collected_at": "2026-09-11T06:20:25+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio11690691.html"
   },
   "dongshin": {
    "ok": true,
    "quota": 1431,
-   "applicants": 4724,
+   "applicants": 4725,
    "ratio": 3.3,
    "ratio_shown": 3.3,
-   "page_ts": "2026-09-11 06:15",
+   "page_ts": "2026-09-11 06:20",
    "types": [
     {
      "group": null,
      "name": "학생부교과(일반전형)",
      "quota": 753,
      "quota_text": "753",
-     "applicants": 2923,
+     "applicants": 2924,
      "ratio": 3.88
     },
     {
@@ -1466,8 +1466,8 @@
      "unit": "간호학과 [교육평가원인증], [교직]",
      "quota": 120,
      "quota_text": "120",
-     "applicants": 602,
-     "ratio": 5.02
+     "applicants": 603,
+     "ratio": 5.03
     },
     {
      "type": "학생부교과(일반전형)",
@@ -2173,7 +2173,7 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-11T06:15:29+09:00",
+   "collected_at": "2026-09-11T06:20:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOlclfCZyV2FWSmYlJjomSjdmVGY="
   },
   "mokpo": {
@@ -3606,7 +3606,7 @@
      "ratio": 0.74
     }
    ],
-   "collected_at": "2026-09-11T06:15:29+09:00",
+   "collected_at": "2026-09-11T06:20:25+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10690271.html"
   },
   "suncheon": {
@@ -4814,7 +4814,7 @@
      "ratio": 2.25
     }
    ],
-   "collected_at": "2026-09-11T06:15:29+09:00",
+   "collected_at": "2026-09-11T06:20:25+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10990491.html"
   },
   "kwu": {
@@ -4823,7 +4823,7 @@
    "applicants": 2780,
    "ratio": 3.25,
    "ratio_shown": 3.25,
-   "page_ts": "2026-09-11 06:15",
+   "page_ts": "2026-09-11 06:20",
    "types": [
     {
      "group": null,
@@ -5283,7 +5283,7 @@
      "ratio": 3.0
     }
    ],
-   "collected_at": "2026-09-11T06:15:29+09:00",
+   "collected_at": "2026-09-11T06:20:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOk45SmYlJjomSjdmVGY="
   },
   "nambu": {
@@ -5292,7 +5292,7 @@
    "applicants": 2241,
    "ratio": 3.45,
    "ratio_shown": 3.45,
-   "page_ts": "2026-09-11 06:15",
+   "page_ts": "2026-09-11 06:20",
    "types": [
     {
      "group": null,
@@ -5687,7 +5687,7 @@
      "ratio": 0.1
     }
    ],
-   "collected_at": "2026-09-11T06:15:29+09:00",
+   "collected_at": "2026-09-11T06:20:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOkJNOFdKZiUmOiZKN2ZUZg=="
   },
   "songwon": {
@@ -5696,7 +5696,7 @@
    "applicants": 1226,
    "ratio": 1.92,
    "ratio_shown": 1.92,
-   "page_ts": "2026-09-11 06:15",
+   "page_ts": "2026-09-11 06:20",
    "types": [
     {
      "group": null,
@@ -6024,9 +6024,9 @@
      "ratio": 0.0
     }
    ],
-   "collected_at": "2026-09-11T06:15:29+09:00",
+   "collected_at": "2026-09-11T06:20:25+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KV2FOcldhJkpmJSY6Jko3ZlRm"
   }
  },
- "collected_at": "2026-09-11T06:15:29+09:00"
+ "collected_at": "2026-09-11T06:20:25+09:00"
 }
