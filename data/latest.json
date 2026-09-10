@@ -3,17 +3,17 @@
   "gwangju": {
    "ok": true,
    "quota": 1351,
-   "applicants": 3482,
+   "applicants": 3486,
    "ratio": 2.58,
    "ratio_shown": 2.58,
-   "page_ts": "2026-09-10 14:35",
+   "page_ts": "2026-09-10 14:40",
    "types": [
     {
      "group": null,
      "name": "학생부교과(일반학생)",
      "quota": 917,
      "quota_text": "917",
-     "applicants": 2633,
+     "applicants": 2636,
      "ratio": 2.87
     },
     {
@@ -21,7 +21,7 @@
      "name": "학생부교과(나눔인재)",
      "quota": 189,
      "quota_text": "189",
-     "applicants": 243,
+     "applicants": 244,
      "ratio": 1.29
     },
     {
@@ -120,8 +120,8 @@
      "unit": "응급구조학과 [국제응급구조사협회 전문교육기관 지정]",
      "quota": 30,
      "quota_text": "30",
-     "applicants": 154,
-     "ratio": 5.13
+     "applicants": 155,
+     "ratio": 5.17
     },
     {
      "type": "학생부교과(일반학생)",
@@ -174,8 +174,8 @@
      "unit": "패션주얼리디자인학과",
      "quota": 15,
      "quota_text": "15",
-     "applicants": 61,
-     "ratio": 4.07
+     "applicants": 62,
+     "ratio": 4.13
     },
     {
      "type": "학생부교과(일반학생)",
@@ -219,8 +219,8 @@
      "unit": "호텔조리제과제빵학과",
      "quota": 30,
      "quota_text": "30",
-     "applicants": 143,
-     "ratio": 4.77
+     "applicants": 144,
+     "ratio": 4.8
     },
     {
      "type": "학생부교과(일반학생)",
@@ -416,8 +416,8 @@
      "unit": "교육상담학과 [전일제] (+7개 학과 광역)",
      "quota": 48,
      "quota_text": "48",
-     "applicants": 57,
-     "ratio": 1.19,
+     "applicants": 58,
+     "ratio": 1.21,
      "subunits": [
       "심리학과",
       "경찰행정학과",
@@ -626,23 +626,23 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-10T14:35:21+09:00",
+   "collected_at": "2026-09-10T14:40:29+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOi9yVzhOckpmJSY6Jko3ZlRm"
   },
   "honam": {
    "ok": true,
    "quota": 1575,
-   "applicants": 3762,
+   "applicants": 3768,
    "ratio": 2.39,
    "ratio_shown": 2.39,
-   "page_ts": "2026-09-10 14:30",
+   "page_ts": "2026-09-10 14:35",
    "types": [
     {
      "group": null,
      "name": "학생부교과(일반학생A전형)_면접중심",
      "quota": 512,
      "quota_text": "512",
-     "applicants": 1043,
+     "applicants": 1044,
      "ratio": 2.04
     },
     {
@@ -650,8 +650,8 @@
      "name": "학생부교과(일반학생B전형)_교과중심",
      "quota": 210,
      "quota_text": "210",
-     "applicants": 631,
-     "ratio": 3.0
+     "applicants": 635,
+     "ratio": 3.02
     },
     {
      "group": null,
@@ -674,8 +674,8 @@
      "name": "학생부교과(기초생활수급자·차상위계층·한부모가족지원대상자전형)(정원외)_교과중심",
      "quota": 82,
      "quota_text": "82",
-     "applicants": 206,
-     "ratio": 2.51
+     "applicants": 207,
+     "ratio": 2.52
     }
    ],
    "notes": [],
@@ -778,8 +778,8 @@
      "unit": "스포츠과학부 (축구/태권도/ 스포츠레저) / 스포츠레저·지도전공 [전일제]",
      "quota": 80,
      "quota_text": "80",
-     "applicants": 154,
-     "ratio": 1.93
+     "applicants": 155,
+     "ratio": 1.94
     },
     {
      "type": "학생부교과(일반학생A전형)_면접중심",
@@ -805,8 +805,8 @@
      "unit": "치위생학과",
      "quota": 20,
      "quota_text": "20",
-     "applicants": 118,
-     "ratio": 5.9
+     "applicants": 119,
+     "ratio": 5.95
     },
     {
      "type": "학생부교과(일반학생B전형)_교과중심",
@@ -823,8 +823,8 @@
      "unit": "응급구조학과",
      "quota": 32,
      "quota_text": "32",
-     "applicants": 148,
-     "ratio": 4.63
+     "applicants": 149,
+     "ratio": 4.66
     },
     {
      "type": "학생부교과(일반학생B전형)_교과중심",
@@ -841,8 +841,8 @@
      "unit": "유아교육학과 [교직]",
      "quota": 19,
      "quota_text": "19",
-     "applicants": 51,
-     "ratio": 2.68
+     "applicants": 52,
+     "ratio": 2.74
     },
     {
      "type": "학생부교과(일반학생B전형)_교과중심",
@@ -850,8 +850,8 @@
      "unit": "자유전공학부",
      "quota": 114,
      "quota_text": "114",
-     "applicants": 201,
-     "ratio": 1.76
+     "applicants": 202,
+     "ratio": 1.77
     },
     {
      "type": "학생부교과(일반고전형)_교과중심",
@@ -1264,27 +1264,27 @@
      "unit": "창의문화스포츠대학 / 스포츠레저·지도전공 [전일제]",
      "quota": 23,
      "quota_text": "23",
-     "applicants": 47,
-     "ratio": 2.04
+     "applicants": 48,
+     "ratio": 2.09
     }
    ],
-   "collected_at": "2026-09-10T14:35:21+09:00",
+   "collected_at": "2026-09-10T14:40:29+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio11690691.html"
   },
   "dongshin": {
    "ok": true,
    "quota": 1431,
-   "applicants": 3372,
+   "applicants": 3376,
    "ratio": 2.36,
    "ratio_shown": 2.36,
-   "page_ts": "2026-09-10 14:35",
+   "page_ts": "2026-09-10 14:40",
    "types": [
     {
      "group": null,
      "name": "학생부교과(일반전형)",
      "quota": 753,
      "quota_text": "753",
-     "applicants": 2024,
+     "applicants": 2028,
      "ratio": 2.69
     },
     {
@@ -1439,8 +1439,8 @@
      "unit": "전기공학과",
      "quota": 24,
      "quota_text": "24",
-     "applicants": 85,
-     "ratio": 3.54
+     "applicants": 86,
+     "ratio": 3.58
     },
     {
      "type": "학생부교과(일반전형)",
@@ -1493,8 +1493,8 @@
      "unit": "방사선학과",
      "quota": 45,
      "quota_text": "45",
-     "applicants": 242,
-     "ratio": 5.38
+     "applicants": 243,
+     "ratio": 5.4
     },
     {
      "type": "학생부교과(일반전형)",
@@ -1637,8 +1637,8 @@
      "unit": "호텔관광경영학과",
      "quota": 17,
      "quota_text": "17",
-     "applicants": 15,
-     "ratio": 0.88
+     "applicants": 16,
+     "ratio": 0.94
     },
     {
      "type": "학생부교과(일반전형)",
@@ -1646,8 +1646,8 @@
      "unit": "생활체육학과",
      "quota": 16,
      "quota_text": "16",
-     "applicants": 32,
-     "ratio": 2.0
+     "applicants": 33,
+     "ratio": 2.06
     },
     {
      "type": "학생부교과(일반전형)",
@@ -2173,7 +2173,7 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-10T14:35:21+09:00",
+   "collected_at": "2026-09-10T14:40:29+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOlclfCZyV2FWSmYlJjomSjdmVGY="
   },
   "mokpo": {
@@ -3606,7 +3606,7 @@
      "ratio": 0.55
     }
    ],
-   "collected_at": "2026-09-10T14:35:21+09:00",
+   "collected_at": "2026-09-10T14:40:29+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10690271.html"
   },
   "suncheon": {
@@ -4814,16 +4814,16 @@
      "ratio": 2.0
     }
    ],
-   "collected_at": "2026-09-10T14:35:21+09:00",
+   "collected_at": "2026-09-10T14:40:29+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10990491.html"
   },
   "kwu": {
    "ok": true,
    "quota": 855,
-   "applicants": 1998,
+   "applicants": 2000,
    "ratio": 2.34,
    "ratio_shown": 2.34,
-   "page_ts": "2026-09-10 14:35",
+   "page_ts": "2026-09-10 14:40",
    "types": [
     {
      "group": null,
@@ -4838,7 +4838,7 @@
      "name": "일반학생전형Ⅱ",
      "quota": 471,
      "quota_text": "471",
-     "applicants": 1218,
+     "applicants": 1219,
      "ratio": 2.59
     },
     {
@@ -4846,8 +4846,8 @@
      "name": "지역인재전형",
      "quota": 78,
      "quota_text": "78",
-     "applicants": 137,
-     "ratio": 1.76
+     "applicants": 138,
+     "ratio": 1.77
     },
     {
      "group": null,
@@ -5082,8 +5082,8 @@
      "unit": "치위생학과 ◆ [한국치위생학교육평가원 치위생학교육 인증]",
      "quota": 34,
      "quota_text": "34",
-     "applicants": 107,
-     "ratio": 3.15
+     "applicants": 108,
+     "ratio": 3.18
     },
     {
      "type": "일반학생전형Ⅱ",
@@ -5147,8 +5147,8 @@
      "unit": "물리치료학과 ■ [한국물리치료교육평가원 물리치료교육 인증]",
      "quota": 8,
      "quota_text": "8",
-     "applicants": 36,
-     "ratio": 4.5
+     "applicants": 37,
+     "ratio": 4.63
     },
     {
      "type": "지역인재전형",
@@ -5283,23 +5283,23 @@
      "ratio": 3.0
     }
    ],
-   "collected_at": "2026-09-10T14:35:21+09:00",
+   "collected_at": "2026-09-10T14:40:29+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOk45SmYlJjomSjdmVGY="
   },
   "nambu": {
    "ok": true,
    "quota": 650,
-   "applicants": 1553,
+   "applicants": 1554,
    "ratio": 2.39,
    "ratio_shown": 2.39,
-   "page_ts": "2026-09-10 14:35",
+   "page_ts": "2026-09-10 14:40",
    "types": [
     {
      "group": null,
      "name": "일반학생",
      "quota": 566,
      "quota_text": "566",
-     "applicants": 1348,
+     "applicants": 1349,
      "ratio": 2.38
     },
     {
@@ -5467,8 +5467,8 @@
      "unit": "간호학과 [교직] [간호교육인증평가 인증학과]",
      "quota": 188,
      "quota_text": "188",
-     "applicants": 542,
-     "ratio": 2.88
+     "applicants": 543,
+     "ratio": 2.89
     },
     {
      "type": "일반학생",
@@ -5687,23 +5687,23 @@
      "ratio": 0.1
     }
    ],
-   "collected_at": "2026-09-10T14:35:21+09:00",
+   "collected_at": "2026-09-10T14:40:29+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOkJNOFdKZiUmOiZKN2ZUZg=="
   },
   "songwon": {
    "ok": true,
    "quota": 638,
-   "applicants": 872,
+   "applicants": 876,
    "ratio": 1.37,
    "ratio_shown": 1.37,
-   "page_ts": "2026-09-10 14:35",
+   "page_ts": "2026-09-10 14:40",
    "types": [
     {
      "group": null,
      "name": "일반전형",
      "quota": 494,
      "quota_text": "494",
-     "applicants": 749,
+     "applicants": 752,
      "ratio": 1.52
     },
     {
@@ -5727,8 +5727,8 @@
      "name": "정원외-수급자 차상위 한부모",
      "quota": 33,
      "quota_text": "33",
-     "applicants": 51,
-     "ratio": 1.55
+     "applicants": 52,
+     "ratio": 1.58
     }
    ],
    "notes": [],
@@ -5831,8 +5831,8 @@
      "unit": "사회복지학과",
      "quota": 25,
      "quota_text": "25",
-     "applicants": 41,
-     "ratio": 1.64
+     "applicants": 42,
+     "ratio": 1.68
     },
     {
      "type": "일반전형",
@@ -5876,8 +5876,8 @@
      "unit": "간호학과",
      "quota": 141,
      "quota_text": "141",
-     "applicants": 216,
-     "ratio": 1.53
+     "applicants": 218,
+     "ratio": 1.55
     },
     {
      "type": "일반전형",
@@ -5957,8 +5957,8 @@
      "unit": "간호학과",
      "quota": 19,
      "quota_text": "19",
-     "applicants": 37,
-     "ratio": 1.95
+     "applicants": 38,
+     "ratio": 2.0
     },
     {
      "type": "정원외-수급자 차상위 한부모",
@@ -6024,9 +6024,9 @@
      "ratio": 0.0
     }
    ],
-   "collected_at": "2026-09-10T14:35:21+09:00",
+   "collected_at": "2026-09-10T14:40:29+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KV2FOcldhJkpmJSY6Jko3ZlRm"
   }
  },
- "collected_at": "2026-09-10T14:35:21+09:00"
+ "collected_at": "2026-09-10T14:40:29+09:00"
 }
