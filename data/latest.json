@@ -626,7 +626,7 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-11T17:25:24+09:00",
+   "collected_at": "2026-09-11T17:30:35+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOi9yVzhOckpmJSY6Jko3ZlRm"
   },
   "honam": {
@@ -1268,7 +1268,7 @@
      "ratio": 2.7
     }
    ],
-   "collected_at": "2026-09-11T17:25:24+09:00",
+   "collected_at": "2026-09-11T17:30:35+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio11690691.html"
   },
   "dongshin": {
@@ -2173,7 +2173,7 @@
      "ratio": null
     }
    ],
-   "collected_at": "2026-09-11T17:25:24+09:00",
+   "collected_at": "2026-09-11T17:30:35+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOlclfCZyV2FWSmYlJjomSjdmVGY="
   },
   "mokpo": {
@@ -3606,7 +3606,7 @@
      "ratio": 0.97
     }
    ],
-   "collected_at": "2026-09-11T17:25:24+09:00",
+   "collected_at": "2026-09-11T17:30:35+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10690271.html"
   },
   "suncheon": {
@@ -4814,31 +4814,31 @@
      "ratio": 2.25
     }
    ],
-   "collected_at": "2026-09-11T17:25:24+09:00",
+   "collected_at": "2026-09-11T17:30:35+09:00",
    "url": "https://addon.jinhakapply.com/RatioV1/RatioH/Ratio10990491.html"
   },
   "kwu": {
    "ok": true,
    "quota": 855,
-   "applicants": 3406,
-   "ratio": 3.98,
-   "ratio_shown": 3.98,
-   "page_ts": "2026-09-11 17:25",
+   "applicants": 3413,
+   "ratio": 3.99,
+   "ratio_shown": 3.99,
+   "page_ts": "2026-09-11 17:30",
    "types": [
     {
      "group": null,
      "name": "일반학생전형Ⅰ",
      "quota": 177,
      "quota_text": "177",
-     "applicants": 806,
-     "ratio": 4.55
+     "applicants": 808,
+     "ratio": 4.56
     },
     {
      "group": null,
      "name": "일반학생전형Ⅱ",
      "quota": 471,
      "quota_text": "471",
-     "applicants": 2094,
+     "applicants": 2098,
      "ratio": 4.45
     },
     {
@@ -4846,8 +4846,8 @@
      "name": "지역인재전형",
      "quota": 78,
      "quota_text": "78",
-     "applicants": 263,
-     "ratio": 3.37
+     "applicants": 264,
+     "ratio": 3.38
     },
     {
      "group": null,
@@ -4893,8 +4893,8 @@
      "unit": "미용과학과 [교직]",
      "quota": 30,
      "quota_text": "30",
-     "applicants": 142,
-     "ratio": 4.73
+     "applicants": 144,
+     "ratio": 4.8
     },
     {
      "type": "일반학생전형Ⅰ",
@@ -4947,8 +4947,8 @@
      "unit": "경찰행정학과",
      "quota": 22,
      "quota_text": "22",
-     "applicants": 52,
-     "ratio": 2.36
+     "applicants": 53,
+     "ratio": 2.41
     },
     {
      "type": "일반학생전형Ⅱ",
@@ -5064,8 +5064,8 @@
      "unit": "간호학과 ▲ [교직] [한국간호평가원 3주기 간호교육인증 5년]",
      "quota": 108,
      "quota_text": "108",
-     "applicants": 778,
-     "ratio": 7.2
+     "applicants": 780,
+     "ratio": 7.22
     },
     {
      "type": "일반학생전형Ⅱ",
@@ -5082,8 +5082,8 @@
      "unit": "치위생학과 ◆ [한국치위생학교육평가원 치위생학교육 인증]",
      "quota": 34,
      "quota_text": "34",
-     "applicants": 205,
-     "ratio": 6.03
+     "applicants": 206,
+     "ratio": 6.06
     },
     {
      "type": "일반학생전형Ⅱ",
@@ -5147,8 +5147,8 @@
      "unit": "물리치료학과 ■ [한국물리치료교육평가원 물리치료교육 인증]",
      "quota": 8,
      "quota_text": "8",
-     "applicants": 60,
-     "ratio": 7.5
+     "applicants": 61,
+     "ratio": 7.63
     },
     {
      "type": "지역인재전형",
@@ -5283,7 +5283,7 @@
      "ratio": 3.0
     }
    ],
-   "collected_at": "2026-09-11T17:25:24+09:00",
+   "collected_at": "2026-09-11T17:30:35+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOk45SmYlJjomSjdmVGY="
   },
   "nambu": {
@@ -5687,23 +5687,23 @@
      "ratio": 0.1
     }
    ],
-   "collected_at": "2026-09-11T17:25:24+09:00",
+   "collected_at": "2026-09-11T17:30:35+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KOkJNOFdKZiUmOiZKN2ZUZg=="
   },
   "songwon": {
    "ok": true,
    "quota": 638,
-   "applicants": 1678,
+   "applicants": 1679,
    "ratio": 2.63,
    "ratio_shown": 2.63,
-   "page_ts": "2026-09-11 17:25",
+   "page_ts": "2026-09-11 17:30",
    "types": [
     {
      "group": null,
      "name": "일반전형",
      "quota": 494,
      "quota_text": "494",
-     "applicants": 1513,
+     "applicants": 1514,
      "ratio": 3.06
     },
     {
@@ -5750,8 +5750,8 @@
      "unit": "철도운전관제시스템학과",
      "quota": 29,
      "quota_text": "29",
-     "applicants": 85,
-     "ratio": 2.93
+     "applicants": 86,
+     "ratio": 2.97
     },
     {
      "type": "일반전형",
@@ -6024,9 +6024,9 @@
      "ratio": 0.0
     }
    ],
-   "collected_at": "2026-09-11T17:25:24+09:00",
+   "collected_at": "2026-09-11T17:30:35+09:00",
    "url": "https://ratio.uwayapply.com/Sl5KV2FOcldhJkpmJSY6Jko3ZlRm"
   }
  },
- "collected_at": "2026-09-11T17:25:24+09:00"
+ "collected_at": "2026-09-11T17:30:35+09:00"
 }
